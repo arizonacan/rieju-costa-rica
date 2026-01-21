@@ -3,17 +3,23 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { useRouter } from "next/navigation"; 
+import { useLanguage } from "@/context/LanguageContext";
 
+// --- UPDATED LINKS (Added Gallery) ---
 const menuTranslations = {
   es: [
     { label: "Motos", path: "/bikes" },
     { label: "Partes", path: "/parts" },
+    { label: "Noticias", path: "/news" },
+    { label: "Galería", path: "/gallery" }, // <--- NEW
     { label: "Mercancía", path: "/merch" },
     { label: "Contacto", path: "/contact" }
   ],
   en: [
     { label: "Bikes", path: "/bikes" },
     { label: "Parts", path: "/parts" },
+    { label: "News", path: "/news" },
+    { label: "Gallery", path: "/gallery" }, // <--- NEW
     { label: "Merch", path: "/merch" },
     { label: "Contact", path: "/contact" }
   ]
@@ -48,14 +54,15 @@ function MenuItem({ item }: MenuItemProps) {
       onMouseLeave={() => mouseY.set(Infinity)}
       className="cursor-pointer py-2 group block relative pointer-events-auto"
     >
-      <span className="text-right block text-sm font-bold tracking-widest uppercase text-zinc-500 transition-colors duration-300 group-hover:text-white">
+      <span className="text-right block text-sm font-bold tracking-widest uppercase text-zinc-500 transition-colors duration-300 group-hover:text-[#D61F26]">
         {item.label}
       </span>
     </motion.div>
   );
 }
 
-export default function MagneticMenu({ lang }: { lang: 'es' | 'en' }) {
+export default function MagneticMenu () {
+  const { lang } = useLanguage();
   const items = menuTranslations[lang];
 
   return (

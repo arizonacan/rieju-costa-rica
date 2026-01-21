@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/context/LanguageContext"; // <--- IMPORT THIS
 
-const spaceGrotesk = Space_Grotesk({ 
-  subsets: ["latin"], 
-  variable: "--font-space" 
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Ocean Avenue Consulting",
-  description: "Digital Infrastructure.",
+  title: "Maximum Motorsports",
+  description: "Official Rieju Dealer Costa Rica",
 };
 
 export default function RootLayout({
@@ -19,8 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${spaceGrotesk.variable} font-sans antialiased bg-zinc-950 text-white overflow-x-hidden`}>
-        {children}
+      <body className={inter.className}>
+        {/* WRAP THE APP HERE */}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );
