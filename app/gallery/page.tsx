@@ -49,7 +49,7 @@ export default function GalleryPage() {
           <img
             src="/assets/maxlogo.png"
             alt="Maximum Motorsports"
-            className="w-20 md:w-24 h-auto object-contain drop-shadow-lg opacity-90 hover:opacity-100 transition-opacity duration-300"
+            className="w-10 md:w-14 h-auto object-contain drop-shadow-lg opacity-90 hover:opacity-100 transition-opacity duration-300"
           />
         </Link>
       </div>
