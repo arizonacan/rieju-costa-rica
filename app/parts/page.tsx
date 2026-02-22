@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, ChevronRight, search } from "lucide-react";
+import { ArrowLeft, ChevronRight, Search } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 // --- DATA ---
@@ -120,7 +120,7 @@ export default function PartsPage() {
           </div>
           <input
             type="text"
-className="w-full bg-zinc-950 border border-[#D61F26]/50 text-white text-lg font-medium tracking-wide rounded-full focus:ring-0 focus:border-[#D61F26] focus:shadow-[0_0_20px_rgba(214,31,38,0.3)] outline-none block pl-16 py-4 pr-6 placeholder-zinc-500 transition-all duration-300"            placeholder={t.searchPlaceholder}
+            className="w-full bg-zinc-950 border border-[#D61F26]/50 text-white text-lg font-medium tracking-wide rounded-full focus:ring-0 focus:border-[#D61F26] focus:shadow-[0_0_20px_rgba(214,31,38,0.3)] outline-none block pl-16 py-4 pr-6 placeholder-zinc-500 transition-all duration-300"            placeholder={t.searchPlaceholder}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
