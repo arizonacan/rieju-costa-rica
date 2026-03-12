@@ -1,35 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createClient } from "next-sanity";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
-// --- DATA ---
-const bikes = [
-  {
-    id: "mr300pro",
-    name: "MR PRO 300i",
-    category: "hard-enduro",
-    price: "$12,899",
-    specs: { engine: "300cc TFI 2-Stroke", weight: "103.5kg", suspension: "KYB AOS (DLC Coated)" },
-    image: "/assets/300i.webp" 
-  },
-  {
-    id: "mr300racing",
-    name: "MR RACING 300i",
-    category: "hard-enduro",
-    price: "$11,699",
-    specs: { engine: "300cc TFI 2-Stroke", weight: "103.5kg", suspension: "KYB AOS" },
-    image: "/assets/300.jpg"
-  }
-];
+// --- 1. SANITY CONFIG ---
+const client = createClient({
+  projectId: "gjvvvo7w", 
+  dataset: "production",
+  apiVersion: "2024-03-12",
+  useCdn: true,
+});
 
-// --- STYLES ---
+// --- 2. STYLES ---
 const styles = {
   container: "min-h-screen bg-zinc-950 text-white selection:bg-[#D61F26] selection:text-white pb-20 relative",
-  // Updated backLink to match News Page logic (we will put it inside the header section)
   backLink: "inline-flex items-center text-zinc-500 hover:text-[#D61F26] transition-colors mb-8 uppercase text-xs tracking-widest font-bold",
   title: "text-5xl md:text-8xl font-bold uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-600 mb-6",
   filterBtnBase: "px-6 py-2 rounded-full border text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap",
@@ -41,9 +29,36 @@ const styles = {
   viewButton: "w-full py-4 bg-zinc-950 border border-zinc-800 text-white uppercase text-xs font-bold tracking-widest hover:bg-[#D61F26] hover:text-white hover:border-[#D61F26] transition-all flex items-center justify-center gap-2 cursor-pointer"
 };
 
+// --- 3. MAIN COMPONENT ---
 export default function BikesPage() {
+  const [bikes, setBikes] = useState([]); // State for live bikes
   const [filter, setFilter] = useState("all");
   const { lang, setLang } = useLanguage();
+
+  // --- 4. FETCH THE DATA FROM SANITY ---
+  useEffect(() => {
+    async function fetchBikes() {
+      const data = await client.fetch(`
+        *[_type == "motorcycle"]{
+          "id": _id,
+          "name": model,
+          "category": "hard-enduro", 
+          "price": "$" + string(price),
+          "specs": { 
+            "engine": description, 
+            "weight": weight,
+            "suspension": suspension
+          },
+          "image": mainImage.asset->url
+        }
+      `);
+      console.log("SANITY DATA INCOMING:", data);
+      setBikes(data);
+    }
+    fetchBikes();
+  }, []);
+
+  // --- 5. TRANSLATION DATA ---
   const content = {
     es: {
       back: "Volver a Base",
@@ -62,12 +77,13 @@ export default function BikesPage() {
   };
 
   const t = content[lang];
-  const filteredBikes = filter === "all" ? bikes : bikes.filter(bike => bike.category === filter);
+  
+  // Filter the live bikes from Sanity
+  const filteredBikes = filter === "all" ? bikes : bikes.filter((bike: any) => bike.category === filter);
 
   return (
     <div className={styles.container}>
-      
-      {/* --- 1. THE LOGO (Top Left) --- */}
+      {/* THE LOGO */}
       <div className="absolute top-8 left-6 md:left-12 z-50">
         <Link href="/">
             <img 
@@ -78,7 +94,7 @@ export default function BikesPage() {
         </Link>
       </div>
 
-      {/* --- 2. THE FLAGS (Top Right) --- */}
+      {/* THE FLAGS */}
       <div className="absolute top-8 right-6 md:right-12 z-50 flex items-center gap-4">
         <button onClick={() => setLang('es')} className={`group relative flex items-center justify-center transition-all duration-500 ${lang === 'es' ? 'scale-110 opacity-100' : 'scale-90 opacity-40 grayscale hover:opacity-100 hover:grayscale-0'}`}>
           <div className={`absolute inset-0 rounded-full blur-md bg-[#D61F26]/40 ${lang === 'es' ? 'opacity-100' : 'opacity-0'}`} />
@@ -90,7 +106,6 @@ export default function BikesPage() {
       </div>
 
       {/* HEADER SECTION */}
-      {/* SENSEI NOTE: We increased padding-top (pt-32) so the title doesn't hit the Logo */}
       <div className="pt-32 md:pt-40 px-6 md:px-12 max-w-7xl mx-auto">
         <Link href="/" className={styles.backLink}>
           <ArrowLeft className="w-4 h-4 mr-2" /> {t.back}
@@ -117,7 +132,7 @@ export default function BikesPage() {
       {/* GRID SECTION */}
       <div className="px-6 md:px-12 max-w-7xl mx-auto">
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredBikes.map((bike) => (
+          {filteredBikes.map((bike: any) => (
             <motion.div
               layout
               initial={{ opacity: 0, scale: 0.9 }}
