@@ -16,8 +16,8 @@ const { lang, setLang } = useLanguage();
           bikes: "Motos",
           parts: "Partes",
           news: "Noticias",
-          gallery: "Galería", // <--- ADD THIS
-          merch: "Mercancía",
+          gallery: "Galería", 
+          merch: "Ropa y Equipo",
           contact: "Contacto"
         }
       },
@@ -29,8 +29,8 @@ const { lang, setLang } = useLanguage();
           bikes: "Bikes",
           parts: "Parts",
           news: "News",
-          gallery: "Gallery", // <--- ADD THIS
-          merch: "Merch",
+          gallery: "Gallery", 
+          merch: "Apparel & Gear",
           contact: "Contact"
         }
       }

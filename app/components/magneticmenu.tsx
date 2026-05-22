@@ -12,7 +12,7 @@ const menuTranslations = {
     { label: "Partes", path: "/parts" },
     { label: "Noticias", path: "/news" },
     { label: "Galería", path: "/gallery" }, // <--- NEW
-    { label: "Mercancía", path: "/merch" },
+    { label: "Ropa y Equipo", path: "/merch" },
     { label: "Contacto", path: "/contact" }
   ],
   en: [
@@ -20,7 +20,7 @@ const menuTranslations = {
     { label: "Parts", path: "/parts" },
     { label: "News", path: "/news" },
     { label: "Gallery", path: "/gallery" }, // <--- NEW
-    { label: "Merch", path: "/merch" },
+    { label: "Apparel & Gear", path: "/merch" },
     { label: "Contact", path: "/contact" }
   ]
 };

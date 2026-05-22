@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "next-sanity";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Search, X, Settings2, Wrench, Hash, Package } from "lucide-react";
+import { ArrowLeft, X, Settings2, Ruler, Layers, Tag } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 // --- 1. SANITY CONFIG ---
@@ -23,87 +23,78 @@ const styles = {
   filterBtnBase: "px-6 py-2 rounded-full border text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap",
   filterActive: "bg-[#D61F26] text-white border-[#D61F26]",
   filterInactive: "bg-transparent text-zinc-500 hover:border-zinc-600 hover:text-white",
-  card: "group relative bg-zinc-900/50 border border-zinc-800 hover:border-[#D61F26] transition-colors duration-300 overflow-hidden cursor-pointer",
+  card: "group relative bg-zinc-900/50 border border-zinc-800 hover:border-[#D61F26] transition-colors duration-300 overflow-hidden flex flex-col cursor-pointer",
+  cardImage: "h-80 w-full bg-zinc-800/50 flex items-center justify-center group-hover:bg-zinc-800 transition-colors",
   specLabel: "text-zinc-600 uppercase text-[10px] mb-1"
 };
 
-export default function PartsPage() {
-  const [parts, setParts] = useState([]); // NOW A LIVE STATE!
+// --- 3. MAIN COMPONENT ---
+export default function MerchPage() {
+  const [merch, setMerch] = useState([]);
   const [filter, setFilter] = useState("all");
+  const [selectedMerch, setSelectedMerch] = useState<any>(null); // MODAL STATE
   const { lang, setLang } = useLanguage();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedPart, setSelectedPart] = useState<any>(null);
-  
-  // --- 3. FETCH LIVE DATA FROM SANITY ---
+
+  // --- 4. FETCH THE DATA FROM SANITY ---
   useEffect(() => {
-    async function fetchParts() {
+    async function fetchMerch() {
       const data = await client.fetch(`
-        *[_type == "part"]{
+        *[_type == "merch"]{
           "id": _id,
           "name": title,
           "category": category, 
           "price": "$" + string(price),
           "specs": { 
-            "partNumber": partNumber, 
-            "fitment": fitment,
-            "stock": stock
+            "material": material, 
+            "sizes": sizes
           },
           "image": mainImage.asset->url
         }
       `);
-      console.log("SANITY PARTS DATA INCOMING:", data);
-      setParts(data);
+      setMerch(data);
     }
-    fetchParts();
+    fetchMerch();
   }, []);
 
-  // --- 4. THE UPDATED DICTIONARY ---
+  // --- 5. TRANSLATION DATA ---
   const content = {
     es: {
       back: "Volver a Base",
-      title: "Catálogo de Partes",
-      // ADDED THE NEW TRANSLATIONS HERE!
-      filters: { all: "Todos", controls: "Controles", drivetrain: "Transmisión", engine: "Motor", chassis: "Chasis" },
-      viewSpecs: "Ver Detalles",
+      title: "Ropa y Equipo",
+      filters: { all: "Todo", apparel: "Ropa", accessories: "Accesorios" },
       close: "Cerrar",
-      details: "Especificaciones de la Parte",
-      labels: { fitment: "Compatibilidad", category: "Categoría", partNumber: "Nº de Parte", stock: "Inventario" },
-      searchPlaceholder: "Buscar por nombre o número de parte..."
+      details: "Detalles del Producto",
+      labels: { sizes: "Tallas", material: "Material", category: "Categoría" }
     },
     en: {
       back: "Back to Base",
-      title: "Parts Catalog",
-      // ADDED THE NEW TRANSLATIONS HERE!
-      filters: { all: "All", controls: "Controls", drivetrain: "Drivetrain", engine: "Engine", chassis: "Chassis" },
-      viewSpecs: "View Details",
+      title: "Apparel & Gear",
+      filters: { all: "All", apparel: "Apparel", accessories: "Accessories" },
       close: "Close",
-      details: "Part Specifications",
-      labels: { fitment: "Fitment", category: "Category", partNumber: "Part No.", stock: "Availability" },
-      searchPlaceholder: "Search by name or part number..."
+      details: "Product Details",
+      labels: { sizes: "Sizes", material: "Material", category: "Category" }
     }
   };
 
   const t = content[lang as keyof typeof content];
   
-  const filteredParts = parts.filter((part: any) => {
-    const matchesCategory = filter === "all" || part.category === filter;
-    const searchLower = searchQuery.toLowerCase();
-    const matchesSearch = part.name.toLowerCase().includes(searchLower) || 
-                          (part.specs.partNumber && part.specs.partNumber.toLowerCase().includes(searchLower));
-    
-    return matchesCategory && matchesSearch;
-  });
+  // Filter the live merch from Sanity
+  const filteredMerch = filter === "all" ? merch : merch.filter((item: any) => item.category === filter);
 
   return (
     <div className={styles.container}>
-      
-      {/* THE LOGO & FLAGS */}
+      {/* THE LOGO */}
       <div className="absolute top-8 left-6 md:left-12 z-50">
         <Link href="/">
-            <img src="/assets/maxlogo.png" alt="Maximum Motorsports" className="w-10 md:w-14 h-auto object-contain drop-shadow-lg opacity-90 hover:opacity-100 transition-opacity duration-300" />
+            <img 
+                src="/assets/maxlogo.png" 
+                alt="Maximum Motorsports" 
+                className="w-10 md:w-14 h-auto object-contain drop-shadow-lg opacity-90 hover:opacity-100 transition-opacity duration-300"
+            />
         </Link>
       </div>
 
+      {/* THE FLAGS */}
       <div className="absolute top-8 right-6 md:right-12 z-50 flex items-center gap-4">
         <button onClick={() => setLang('es')} className={`group relative flex items-center justify-center transition-all duration-500 ${lang === 'es' ? 'scale-110 opacity-100' : 'scale-90 opacity-40 grayscale hover:opacity-100 hover:grayscale-0'}`}>
           <div className={`absolute inset-0 rounded-full blur-md bg-[#D61F26]/40 ${lang === 'es' ? 'opacity-100' : 'opacity-0'}`} />
@@ -120,25 +111,12 @@ export default function PartsPage() {
           <ArrowLeft className="w-4 h-4 mr-2" /> {t.back}
         </Link>
 
-        <h1 className={styles.title}>{t.title}</h1>
-
-        {/* SEARCH BAR */}
-        <div className="relative mb-10 max-w-2xl mx-auto md:mx-0 md:mr-auto">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
-            <Search className="w-5 h-5 text-[#D61F26]" />
-          </div>
-          <input
-            type="text"
-            className="w-full bg-zinc-950 border border-[#D61F26]/50 text-white text-lg font-medium tracking-wide rounded-full focus:ring-0 focus:border-[#D61F26] focus:shadow-[0_0_20px_rgba(214,31,38,0.3)] outline-none block pl-16 py-4 pr-6 placeholder-zinc-500 transition-all duration-300"            
-            placeholder={t.searchPlaceholder}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
+        <h1 className={styles.title}>
+          {t.title}
+        </h1>
 
         <div className="flex gap-4 mb-12 overflow-x-auto pb-4 scrollbar-hide">
-          {/* UPDATED THE BUTTON ARRAY HERE! */}
-          {["all", "controls", "drivetrain", "engine", "chassis"].map((cat) => (
+          {["all", "apparel", "accessories"].map((cat) => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}
@@ -153,43 +131,43 @@ export default function PartsPage() {
 
       {/* GRID SECTION */}
       <div className="px-6 md:px-12 max-w-7xl mx-auto">
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredParts.map((part: any) => (
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-3 md:gap-6 gap-8">
+          {filteredMerch.map((item: any) => (
             <motion.div
               layout
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3 }}
-              key={part.id}
+              key={item.id}
               className={styles.card}
-              onClick={() => setSelectedPart(part)}
+              onClick={() => setSelectedMerch(item)}
             >
-              <div className="h-48 w-full bg-zinc-800/50 group-hover:bg-zinc-800 transition-colors overflow-hidden p-4">
+              <div className={styles.cardImage}>
                 <img 
-                  src={part.image} 
-                  alt={part.name[lang]} 
-                  className="w-full h-full object-contain opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
+                  src={item.image} 
+                  alt={item.name[lang]}
+                  className="w-full h-full object-contain p-6 opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
                 />
               </div>
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="pr-2">
-                    <h2 className="text-lg font-bold uppercase italic font-sans leading-tight">{part.name[lang]}</h2>
-                    <p className="text-zinc-500 text-[10px] font-mono mt-1">{part.specs.partNumber}</p>
+              <div className="p-8 flex flex-col flex-grow">
+                <div className="flex justify-between items-start mb-6">
+                  <div className="pr-4">
+                    <h2 className="text-2xl font-bold uppercase italic font-sans leading-tight">{item.name[lang]}</h2>
+                    <p className="text-zinc-500 text-xs font-mono mt-2">{item.specs.material[lang]}</p>
                   </div>
                   <div className="text-right shrink-0">
-                    <span className="block text-[#D61F26] font-mono font-bold text-lg">{part.price}</span>
+                    <span className="block text-[#D61F26] font-mono font-bold text-xl">{item.price}</span>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 text-[10px] text-zinc-400 font-mono border-t border-zinc-800 pt-4 mt-auto">
+                <div className="grid grid-cols-2 gap-4 text-xs text-zinc-400 font-mono border-t border-zinc-800 pt-6 mt-auto">
                    <div className="flex flex-col">
-                      <span className={styles.specLabel}>{t.labels.fitment}</span>
-                      <span className="text-white truncate" title={part.specs.fitment}>{part.specs.fitment[lang]}</span>
+                      <span className={styles.specLabel}>{t.labels.sizes}</span>
+                      <span className="text-white">{item.specs.sizes[lang]}</span>
                    </div>
                    <div className="flex flex-col text-right">
-                      <span className={styles.specLabel}>{t.labels.stock}</span>
-                      <span className="text-white">{part.specs.stock[lang]}</span>
+                      <span className={styles.specLabel}>{t.labels.category}</span>
+                      <span className="uppercase text-white">{item.category}</span>
                    </div>
                 </div>
               </div>
@@ -200,46 +178,46 @@ export default function PartsPage() {
 
       {/* --- SHOWROOM MODAL --- */}
       <AnimatePresence>
-        {selectedPart && (
+        {selectedMerch && (
           <motion.div 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-black/95 backdrop-blur-sm"
-            onClick={() => setSelectedPart(null)}
+            onClick={() => setSelectedMerch(null)}
           >
             <motion.div 
               initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }}
-              className="bg-zinc-900 border border-zinc-800 w-full max-w-5xl max-h-[90vh] overflow-y-auto md:overflow-hidden flex flex-col md:flex-row relative"
+              className="bg-zinc-900 border border-zinc-800 w-full max-w-6xl max-h-[90vh] overflow-y-auto md:overflow-hidden flex flex-col md:flex-row relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* CLOSE BUTTON */}
               <button 
-                onClick={() => setSelectedPart(null)}
+                onClick={() => setSelectedMerch(null)}
                 className="absolute top-6 right-6 z-50 p-2 bg-black/50 hover:bg-[#D61F26] transition-colors rounded-full text-white"
               >
                 <X className="w-6 h-6" />
               </button>
 
               {/* MODAL LEFT: IMAGE */}
-              <div className="w-full md:w-1/2 bg-zinc-800/30 flex items-center justify-center p-12 border-b md:border-b-0 md:border-r border-zinc-800">
+              <div className="w-full md:w-3/5 bg-zinc-800/30 flex items-center justify-center p-12 border-b md:border-b-0 md:border-r border-zinc-800">
                 <img 
-                    src={selectedPart.image} 
-                    alt={selectedPart.name[lang]} 
-                    className="max-h-[50vh] object-contain drop-shadow-2xl" 
+                    src={selectedMerch.image} 
+                    alt={selectedMerch.name[lang]} 
+                    className="max-h-[60vh] object-contain drop-shadow-[0_20px_50px_rgba(214,31,38,0.15)]" 
                 />
               </div>
 
               {/* MODAL RIGHT: INFO */}
-              <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col">
+              <div className="w-full md:w-2/5 p-8 md:p-12 flex flex-col">
                 <div className="mb-8">
                     <span className="text-[#D61F26] font-mono text-xs font-bold tracking-widest uppercase mb-2 block">
                         {/* @ts-expect-error */}
-                        {t.filters[selectedPart.category] || selectedPart.category}
+                        {t.filters[selectedMerch.category] || selectedMerch.category}
                     </span>
-                    <h2 className="text-3xl md:text-5xl font-black uppercase italic leading-none mb-4">
-                        {selectedPart.name[lang]}
+                    <h2 className="text-4xl md:text-5xl font-black uppercase italic leading-none mb-4">
+                        {selectedMerch.name[lang]}
                     </h2>
                     <div className="flex items-baseline gap-3">
-                        <span className="text-3xl font-mono font-bold text-white">{selectedPart.price}</span>
+                        <span className="text-3xl font-mono font-bold text-white">{selectedMerch.price}</span>
                     </div>
                 </div>
 
@@ -251,28 +229,31 @@ export default function PartsPage() {
                     <div className="grid grid-cols-1 gap-4">
                         <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
                             <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
-                                <Hash className="w-3 h-3" /> {t.labels.partNumber}
+                                <Layers className="w-3 h-3" /> {t.labels.material}
                             </span>
-                            <span className="text-sm font-mono text-right text-white">{selectedPart.specs.partNumber}</span>
+                            <span className="text-sm font-mono text-right">{selectedMerch.specs.material[lang]}</span>
                         </div>
                         <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
                             <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
-                                <Wrench className="w-3 h-3" /> {t.labels.fitment}
+                                <Ruler className="w-3 h-3" /> {t.labels.sizes}
                             </span>
-                            <span className="text-sm font-mono text-right text-white">{selectedPart.specs.fitment[lang]}</span>
+                            <span className="text-sm font-mono text-right">{selectedMerch.specs.sizes[lang]}</span>
                         </div>
                         <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
                             <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
-                                <Package className="w-3 h-3" /> {t.labels.stock}
+                                <Tag className="w-3 h-3" /> {t.labels.category}
                             </span>
-                            <span className="text-sm font-mono text-right text-[#D61F26]">{selectedPart.specs.stock[lang]}</span>
+                            <span className="text-sm font-mono text-right uppercase">
+                              {/* @ts-expect-error */}
+                              {t.filters[selectedMerch.category] || selectedMerch.category}
+                            </span>
                         </div>
                     </div>
                 </div>
 
                 <button 
-                    onClick={() => setSelectedPart(null)}
-                    className="w-full py-5 bg-zinc-950 border border-zinc-800 text-white font-black uppercase tracking-[0.2em] text-sm hover:bg-[#D61F26] hover:border-[#D61F26] transition-all duration-300 mt-auto"
+                    onClick={() => setSelectedMerch(null)}
+                    className="w-full py-5 bg-[#D61F26] text-white font-black uppercase tracking-[0.2em] text-sm hover:bg-white hover:text-black transition-all duration-300 shadow-[0_10px_30px_rgba(214,31,38,0.3)] mt-auto"
                 >
                     {t.close}
                 </button>

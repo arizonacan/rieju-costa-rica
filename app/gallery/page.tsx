@@ -1,28 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createClient } from "next-sanity";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, ZoomIn, X } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
-// --- DATA ---
-const galleryItems = [
-  { id: 1, category: "action", src: "/assets/riejutrip.webp", alt: { es: "Travesía Enduro", en: "Enduro Trip" } },
-  { id: 2, category: "showroom", src: "/assets/riejunewarrival.jpg", alt: { es: "Nueva Llegada", en: "New Arrival" } },
-  { id: 3, category: "action", src: "/assets/riejumudrace.webp", alt: { es: "Carrera en Barro", en: "Mud Race" } },
-  { id: 4, category: "detail", src: "/assets/riejuengine.jpg", alt: { es: "Detalle Motor", en: "Engine Detail" } },
-  { id: 5, category: "action", src: "/assets/riejujump.webp", alt: { es: "Salto", en: "Jump" } },
-  { id: 6, category: "showroom", src: "/assets/riejudelivery.jpg", alt: { es: "Día de Entrega", en: "Delivery Day" } },
-];
+// --- 1. SANITY CONFIG ---
+const client = createClient({
+  projectId: "gjvvvo7w", 
+  dataset: "production",
+  apiVersion: "2024-03-12",
+  useCdn: true,
+});
 
 export default function GalleryPage() {
   const { lang, setLang } = useLanguage();
   const [filter, setFilter] = useState("all");
-  const [selectedImage, setSelectedImage] = useState<null | typeof galleryItems[0]>(null);
+  const [galleryItems, setGalleryItems] = useState([]); // Live State
+  const [selectedImage, setSelectedImage] = useState<any>(null);
 
-  // NOTE: I removed the scroll-lock useEffect here. 
-  // This stops the page from "jumping" when the scrollbar disappears.
+  // --- 2. FETCH THE LIVE DATA ---
+  useEffect(() => {
+    async function fetchGallery() {
+      const data = await client.fetch(`
+        *[_type == "gallery"]{
+          "id": _id,
+          "category": category,
+          "title": title,
+          "src": image.asset->url
+        }
+      `);
+      console.log("SANITY GALLERY DATA:", data);
+      setGalleryItems(data);
+    }
+    fetchGallery();
+  }, []);
 
   const content = {
     es: {
@@ -37,8 +51,10 @@ export default function GalleryPage() {
     }
   };
 
-  const t = content[lang];
-  const filteredImages = filter === "all" ? galleryItems : galleryItems.filter(item => item.category === filter);
+  const t = content[lang as keyof typeof content];
+  
+  // Filter the live images from Sanity
+  const filteredImages = filter === "all" ? galleryItems : galleryItems.filter((item: any) => item.category === filter);
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white selection:bg-[#D61F26] selection:text-white pb-20 relative">
@@ -97,7 +113,7 @@ export default function GalleryPage() {
       {/* GRID */}
       <div className="px-6 md:px-12 max-w-7xl mx-auto">
         <motion.div layout className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {filteredImages.map((item) => (
+          {filteredImages.map((item: any) => (
             <motion.div
               layout
               key={item.id}
@@ -109,18 +125,18 @@ export default function GalleryPage() {
             >
               <img
                 src={item.src}
-                alt={item.alt[lang]}
+                alt={item.title[lang]}
                 className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
               />
               <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <ZoomIn className="w-8 h-8 text-[#D61F26] mb-2" />
                 <span className="text-xs font-bold uppercase tracking-widest text-center px-2">
-                  {item.alt[lang]}
+                  {item.title[lang]}
                 </span>
               </div>
               <div className="absolute top-3 left-3 bg-[#D61F26] text-white text-[10px] font-black px-2 py-1 uppercase tracking-widest">
                 {/* @ts-expect-error - Safe key access */}
-                {t.filters[item.category]}
+                {t.filters[item.category] || item.category}
               </div>
             </motion.div>
           ))}
@@ -138,15 +154,13 @@ export default function GalleryPage() {
             onClick={() => setSelectedImage(null)}
           >
             
-            {/* WRAPPER */}
             <div 
                className="relative inline-block"
                onClick={(e) => e.stopPropagation()} 
             >
-                {/* THE IMAGE */}
                 <img
                   src={selectedImage.src}
-                  alt={selectedImage.alt[lang]}
+                  alt={selectedImage.title[lang]}
                   style={{
                     maxHeight: '85vh', 
                     maxWidth: '90vw', 
@@ -154,11 +168,9 @@ export default function GalleryPage() {
                     height: 'auto',
                     display: 'block'
                   }}
-                  // REMOVED 'border border-white/10'
                   className="shadow-2xl rounded-sm relative z-10" 
                 />
 
-                {/* THE STEALTH BUTTON */}
                 <button
                     onClick={() => setSelectedImage(null)}
                     className="absolute top-4 right-4 bg-black/60 hover:bg-black/80 text-white/90 hover:text-white p-2 rounded-full backdrop-blur-md transition-all z-50 border border-white/20"

@@ -1,63 +1,67 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createClient } from "next-sanity";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Calendar } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, ArrowRight, Calendar, X } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
-const newsItems = [
-  {
-    id: 1,
-    date: "10 ENE 2026",
-    title: { es: "Llegada de Modelos 2026", en: "2026 Models Arrival" },
-    description: { es: "Presentamos nuestra nueva línea de motos Rieju para el mercado latinoamericano.", en: "We present our new line of Rieju motorcycles for the Latin American market." },
-    image: "/assets/newlineup.webp"
-  },
-  {
-    id: 2,
-    date: "05 ENE 2026",
-    title: { es: "Maximum: Nuevo Distribuidor", en: "Maximum: New Distributor" },
-    description: { es: "Oficialmente somos la casa de Rieju para todo el territorio nacional.", en: "We are officially the home of Rieju for the entire national territory." },
-    image: "/assets/distributor.webp"
-  },
-  {
-    id: 3,
-    date: "01 ENE 2026",
-    title: { es: "Promociones de Apertura", en: "Opening Promotions" },
-    description: { es: "Ofertas exclusivas para clientes nuevos en todo el país.", en: "Exclusive offers for new customers throughout the country." },
-    image: "/assets/deals.webp"
-  }
-];
+// --- 1. SANITY CONFIG ---
+const client = createClient({
+  projectId: "gjvvvo7w", 
+  dataset: "production",
+  apiVersion: "2024-03-12",
+  useCdn: true,
+});
 
 export default function NewsPage() {
   const { lang, setLang } = useLanguage();
+  const [news, setNews] = useState([]);
+  const [selectedArticle, setSelectedArticle] = useState<any>(null); // MODAL STATE
   
-  // 1. UI TRANSLATIONS (For the static parts of the page)
+  // --- 2. FETCH THE LIVE DATA ---
+  useEffect(() => {
+    async function fetchNews() {
+      // Fetches news and orders them by date (newest first)
+      const data = await client.fetch(`
+        *[_type == "news"] | order(date desc) {
+          "id": _id,
+          "title": title,
+          "date": date,
+          "excerpt": excerpt,
+          "content": content,
+          "image": mainImage.asset->url
+        }
+      `);
+      console.log("SANITY NEWS DATA INCOMING:", data);
+      setNews(data);
+    }
+    fetchNews();
+  }, []);
+
+  // 3. UI TRANSLATIONS (For the static buttons)
   const ui = {
     es: {
       back: "Volver",
-      title: "Noticias", // <--- Spanish Title
-      readMore: "Leer Más"
+      title: "Noticias",
+      readMore: "Leer Más",
+      close: "Cerrar Artículo"
     },
     en: {
       back: "Back",
-      title: "News",     // <--- English Title
-      readMore: "Read More"
+      title: "News",
+      readMore: "Read More",
+      close: "Close Article"
     }
   };
 
-  const staticText = ui[lang];
-
-  // 2. DATA TRANSLATION HELPER (For the array above)
-  const t = (item: any) => item[lang]; 
+  const staticText = ui[lang as keyof typeof ui];
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white selection:bg-[#D61F26] selection:text-white pb-20 relative">
       
-      {/* --- TOP NAVBAR --- */}
-      
-      {/* 1. BRANDING (Top Left) */}
+      {/* --- APP SHELL --- */}
       <div className="absolute top-8 left-6 md:left-12 z-50">
         <Link href="/">
             <img 
@@ -68,7 +72,6 @@ export default function NewsPage() {
         </Link>
       </div>
 
-      {/* 2. LANGUAGE FLAGS (Top Right) */}
       <div className="absolute top-8 right-6 md:right-12 z-50 flex items-center gap-4">
         <button onClick={() => setLang('es')} className={`group relative flex items-center justify-center transition-all duration-500 ${lang === 'es' ? 'scale-110 opacity-100' : 'scale-90 opacity-40 grayscale hover:opacity-100 hover:grayscale-0'}`}>
           <div className={`absolute inset-0 rounded-full blur-md bg-[#D61F26]/40 ${lang === 'es' ? 'opacity-100' : 'opacity-0'}`} />
@@ -83,11 +86,9 @@ export default function NewsPage() {
       <div className="pt-32 md:pt-40 px-6 md:px-12 max-w-7xl mx-auto">
         <Link href="/" className="inline-flex items-center text-zinc-500 hover:text-[#D61F26] transition-colors mb-8 uppercase text-xs tracking-widest font-bold">
           <ArrowLeft className="w-4 h-4 mr-2" /> 
-          {/* UPDATED: Uses the ui object */}
           {staticText.back}
         </Link>
 
-        {/* UPDATED: Uses the ui object for the Title */}
         <h1 className="text-5xl md:text-8xl font-bold uppercase tracking-tighter text-white mb-12 border-b border-zinc-800 pb-8">
           {staticText.title}<span className="text-[#D61F26]">.</span>
         </h1>
@@ -95,20 +96,20 @@ export default function NewsPage() {
 
       {/* CARD GRID */}
       <div className="px-6 md:px-12 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        
-        {newsItems.map((item, index) => (
+        {news.map((item: any, index: number) => (
           <motion.div 
             key={item.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }} 
-            className="group cursor-pointer"
+            className="group cursor-pointer flex flex-col h-full"
+            onClick={() => setSelectedArticle(item)}
           >
             {/* IMAGE CARD */}
-            <div className="aspect-[4/3] bg-zinc-900 border border-zinc-800 group-hover:border-[#D61F26] transition-colors overflow-hidden relative mb-6">
+            <div className="aspect-[4/3] w-full bg-zinc-900 border border-zinc-800 group-hover:border-[#D61F26] transition-colors overflow-hidden relative mb-6">
                 <img 
                     src={item.image} 
-                    alt={t(item.title)} 
+                    alt={item.title[lang]} 
                     className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
                 />
             </div>
@@ -120,25 +121,89 @@ export default function NewsPage() {
             </div>
 
             {/* TITLE */}
-            <h3 className="text-2xl font-bold uppercase italic leading-none mb-3 text-white group-hover:text-[#D61F26] transition-colors">
-                {t(item.title)}
+            <h3 className="text-2xl font-bold uppercase italic leading-tight mb-3 text-white group-hover:text-[#D61F26] transition-colors line-clamp-2">
+                {item.title[lang]}
             </h3>
 
             {/* EXCERPT */}
-            <p className="text-zinc-500 text-sm leading-relaxed mb-6">
-                {t(item.description)}
+            <p className="text-zinc-500 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow">
+                {item.excerpt[lang]}
             </p>
 
             {/* READ MORE BUTTON */}
-            <div className="inline-flex items-center text-xs font-bold uppercase tracking-widest border-b border-[#D61F26] pb-1 text-white group-hover:text-[#D61F26] transition-colors">
-                {/* UPDATED: Uses the ui object */}
+            <div className="inline-flex items-center text-xs font-bold uppercase tracking-widest border-b border-[#D61F26] pb-1 text-white group-hover:text-[#D61F26] transition-colors self-start mt-auto">
                 {staticText.readMore} <ArrowRight className="w-3 h-3 ml-2" />
             </div>
-
           </motion.div>
         ))}
-
       </div>
+
+      {/* --- CINEMATIC ARTICLE MODAL --- */}
+      <AnimatePresence>
+        {selectedArticle && (
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-black/95 backdrop-blur-md"
+            onClick={() => setSelectedArticle(null)}
+          >
+            <motion.div 
+              initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }}
+              className="bg-zinc-950 border border-zinc-800 w-full max-w-5xl h-[90vh] overflow-y-auto relative flex flex-col shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              
+              {/* STEALTH CLOSE BUTTON */}
+              <button 
+                onClick={() => setSelectedArticle(null)}
+                className="absolute top-6 right-6 z-50 p-3 bg-black/50 hover:bg-[#D61F26] transition-colors rounded-full text-white backdrop-blur-md border border-white/10"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              {/* HERO BANNER */}
+              <div className="w-full h-[40vh] md:h-[50vh] relative shrink-0">
+                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent z-10" />
+                 <img 
+                    src={selectedArticle.image} 
+                    alt={selectedArticle.title[lang]} 
+                    className="w-full h-full object-cover"
+                 />
+              </div>
+
+              {/* ARTICLE CONTENT */}
+              <div className="px-8 md:px-16 pb-16 relative z-20 -mt-20 md:-mt-32 max-w-4xl mx-auto w-full">
+                  <div className="flex items-center gap-2 text-[#D61F26] text-sm font-bold tracking-widest uppercase mb-4 drop-shadow-md">
+                      <Calendar className="w-4 h-4" />
+                      {selectedArticle.date}
+                  </div>
+                  
+                  <h2 className="text-4xl md:text-6xl font-black uppercase italic leading-none mb-10 text-white drop-shadow-lg">
+                      {selectedArticle.title[lang]}
+                  </h2>
+
+                  {/* whitespace-pre-wrap ensures that line breaks from the CMS 
+                    actually render as real paragraphs on the screen! 
+                  */}
+                  <div className="text-zinc-300 text-lg md:text-xl leading-relaxed font-sans whitespace-pre-wrap">
+                      {selectedArticle.content[lang] || selectedArticle.excerpt[lang]}
+                  </div>
+                  
+                  {/* BOTTOM CLOSE BUTTON */}
+                  <div className="mt-16 pt-8 border-t border-zinc-800 text-center">
+                    <button 
+                      onClick={() => setSelectedArticle(null)}
+                      className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-500 hover:text-[#D61F26] transition-colors"
+                    >
+                      <ArrowLeft className="w-4 h-4" /> {staticText.close}
+                    </button>
+                  </div>
+              </div>
+
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }

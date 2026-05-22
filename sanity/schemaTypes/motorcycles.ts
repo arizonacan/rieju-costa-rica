@@ -1,47 +1,75 @@
-export default {
+import { defineField, defineType } from 'sanity'
+import MagicTranslator from '../components/MagicTranslator'
+
+export default defineType({
   name: 'motorcycle',
-  title: 'Motorcycle Inventory',
+  title: 'Motos (Motorcycles)',
   type: 'document',
   fields: [
-    {
+    defineField({
       name: 'model',
-      title: 'Model Name',
+      title: 'Nombre del Modelo (Model Name)',
       type: 'string',
-      description: 'e.g. Rieju MR Racing 300',
-    },
-    {
+      description: 'Ej. / e.g. Rieju MR Racing 300',
+    }),
+    defineField({
       name: 'price',
-      title: 'Price ($)',
+      title: 'Precio (Price $)',
       type: 'number',
-    },
-    {
+    }),
+    defineField({
       name: 'mainImage',
-      title: 'Motorcycle Photo',
+      title: 'Foto de la Moto (Motorcycle Photo)',
       type: 'image',
       options: { hotspot: true }, 
-    },
-    {
+    }),
+    defineField({
       name: 'description',
-      title: 'Specs / Description',
-      type: 'text',
-    },
-    {
+      title: 'Motor / Descripción (Engine / Description)',
+      type: 'object',
+      fields: [
+        { name: 'es', title: 'Español (Spanish)', type: 'string' },
+        { 
+          name: 'en', 
+          title: 'Inglés (English)', 
+          type: 'string',
+          components: { input: MagicTranslator } // <-- MAGIC TRANSLATOR INJECTED
+        }
+      ]
+    }),
+    defineField({
       name: 'inStock',
-      title: 'In Stock?',
+      title: '¿En Inventario? (In Stock?)',
       type: 'boolean',
       initialValue: true,
-    },
-    {
+    }),
+    defineField({
       name: 'weight',
-      title: 'Weight',
-      type: 'string',
-      description: 'e.g., 103.5kg or 228 lbs',
-    },
-    {
+      title: 'Peso (Weight)',
+      type: 'object',
+      fields: [
+        { name: 'es', title: 'Español (Spanish) - Ej. 103.5 kg', type: 'string' },
+        { 
+          name: 'en', 
+          title: 'Inglés (English) - e.g. 228 lbs', 
+          type: 'string',
+          components: { input: MagicTranslator } // <-- MAGIC TRANSLATOR INJECTED
+        }
+      ]
+    }),
+    defineField({
       name: 'suspension',
-      title: 'Suspension',
-      type: 'string',
-      description: 'e.g., KYB AOS (DLC Coated)',
-    },
+      title: 'Suspensión (Suspension)',
+      type: 'object',
+      fields: [
+        { name: 'es', title: 'Español (Spanish)', type: 'string' },
+        { 
+          name: 'en', 
+          title: 'Inglés (English)', 
+          type: 'string',
+          components: { input: MagicTranslator } // <-- MAGIC TRANSLATOR INJECTED
+        }
+      ]
+    }),
   ],
-}
+})
