@@ -27,7 +27,9 @@ export default defineType({
       options: {
         list: [
           { title: 'Ropa (Apparel)', value: 'apparel' },
-          { title: 'Accesorios (Accessories)', value: 'accessories' }
+          { title: 'Accesorios (Accessories)', value: 'accessories' },
+          { title: 'Gafas (Goggles)', value: 'goggles' },
+          { title: 'Nutrición (Nutrition)', value: 'nutrition' }
         ],
         layout: 'radio'
       }

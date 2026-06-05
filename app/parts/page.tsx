@@ -63,7 +63,7 @@ export default function PartsPage() {
       back: "Volver a Base",
       title: "Catálogo de Partes",
       // ADDED THE NEW TRANSLATIONS HERE!
-      filters: { all: "Todos", controls: "Controles", drivetrain: "Transmisión", engine: "Motor", chassis: "Chasis" },
+      filters: { all: "Todos", controls: "Controles", drivetrain: "Transmisión", engine: "Motor", chassis: "Chasis", maintenance: "Mantenimiento", protection: "Protección", extras: "Extras" },
       viewSpecs: "Ver Detalles",
       close: "Cerrar",
       details: "Especificaciones de la Parte",
@@ -74,7 +74,7 @@ export default function PartsPage() {
       back: "Back to Base",
       title: "Parts Catalog",
       // ADDED THE NEW TRANSLATIONS HERE!
-      filters: { all: "All", controls: "Controls", drivetrain: "Drivetrain", engine: "Engine", chassis: "Chassis" },
+      filters: { all: "All", controls: "Controls", drivetrain: "Drivetrain", engine: "Engine", chassis: "Chassis", maintenance: "Maintenance", protection: "Protection", extras: "Extras" },
       viewSpecs: "View Details",
       close: "Close",
       details: "Part Specifications",
@@ -138,7 +138,7 @@ export default function PartsPage() {
 
         <div className="flex gap-4 mb-12 overflow-x-auto pb-4 scrollbar-hide">
           {/* UPDATED THE BUTTON ARRAY HERE! */}
-          {["all", "controls", "drivetrain", "engine", "chassis"].map((cat) => (
+          {["all", "controls", "drivetrain", "engine", "chassis", "maintenance", "protection", "extras"].map((cat) => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}

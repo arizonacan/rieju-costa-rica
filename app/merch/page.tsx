@@ -61,7 +61,7 @@ export default function MerchPage() {
     es: {
       back: "Volver a Base",
       title: "Ropa y Equipo",
-      filters: { all: "Todo", apparel: "Ropa", accessories: "Accesorios" },
+      filters: { all: "Todo", apparel: "Ropa", accessories: "Accesorios", goggles: "Gafas", nutrition: "Nutrición" },
       close: "Cerrar",
       details: "Detalles del Producto",
       labels: { sizes: "Tallas", material: "Material", category: "Categoría" }
@@ -69,7 +69,7 @@ export default function MerchPage() {
     en: {
       back: "Back to Base",
       title: "Apparel & Gear",
-      filters: { all: "All", apparel: "Apparel", accessories: "Accessories" },
+      filters: { all: "All", apparel: "Apparel", accessories: "Accessories", goggles: "Goggles", nutrition: "Nutrition" },
       close: "Close",
       details: "Product Details",
       labels: { sizes: "Sizes", material: "Material", category: "Category" }
@@ -116,7 +116,7 @@ export default function MerchPage() {
         </h1>
 
         <div className="flex gap-4 mb-12 overflow-x-auto pb-4 scrollbar-hide">
-          {["all", "apparel", "accessories"].map((cat) => (
+          {["all", "apparel", "accessories", "goggles", "nutrition"].map((cat) => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}

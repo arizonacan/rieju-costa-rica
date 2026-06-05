@@ -30,6 +30,8 @@ export default defineType({
           { title: 'Motor (Engine)', value: 'engine' },
           { title: 'Chasis (Chassis)', value: 'chassis' },
           { title: 'Controles (Controls)', value: 'controls' },
+          { title: 'Mantenimiento (Maintenance)', value: 'maintenance' },
+          { title: 'Protección (Protection)', value: 'protection' }
         ],
         layout: 'radio'
       }
