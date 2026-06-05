@@ -41,7 +41,7 @@ export default function BikesPage() {
           "id": _id,
           "name": model,
           "category": "hard-enduro", 
-          "price": "$" + string(price),
+          "price": "₡" + string(price),
           "description": description,
           "specs": { 
             "engine": description, 

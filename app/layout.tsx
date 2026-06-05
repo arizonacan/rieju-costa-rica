@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     siteName: "Maximum Motorsports",
     images: [
       {
-        url: "/assets/opengraph.jpg", // The 1200x630 image you just added
+        url: "/assets/opengraph.jpg", // The 1200x630 image 
         width: 1200,
         height: 630,
         alt: "Maximum Motorsports Rieju Lineup",

@@ -10,17 +10,17 @@ const menuTranslations = {
   es: [
     { label: "Motos", path: "/bikes" },
     { label: "Partes", path: "/parts" },
-    { label: "Noticias", path: "/news" },
-    { label: "Galería", path: "/gallery" }, // <--- NEW
     { label: "Ropa y Equipo", path: "/merch" },
+    { label: "Noticias", path: "/news" },
+    { label: "Galería", path: "/gallery" }, 
     { label: "Contacto", path: "/contact" }
   ],
   en: [
     { label: "Bikes", path: "/bikes" },
     { label: "Parts", path: "/parts" },
-    { label: "News", path: "/news" },
-    { label: "Gallery", path: "/gallery" }, // <--- NEW
     { label: "Apparel & Gear", path: "/merch" },
+    { label: "News", path: "/news" },
+    { label: "Gallery", path: "/gallery" }, 
     { label: "Contact", path: "/contact" }
   ]
 };

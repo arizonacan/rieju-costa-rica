@@ -42,7 +42,7 @@ export default function PartsPage() {
           "id": _id,
           "name": title,
           "category": category, 
-          "price": "$" + string(price),
+          "price": "₡" + string(price),
           "specs": { 
             "partNumber": partNumber, 
             "fitment": fitment,
