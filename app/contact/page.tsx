@@ -15,11 +15,11 @@ export default function ContactPage() {
       whatsapp: "Chatear por WhatsApp",
       whatsappDesc: "Respuesta inmediata para ventas y soporte",
       location: "Ubicación",
-      locationDesc: "San Ramon, Costa Rica",
+      locationDesc: "20 mts Sur Delegacion de Policia en Cóbano Puntarenas, Cóbano, Puntarenas, Costa Rica",
       hours: "Horario",
-      hoursDesc: "Lun - Sab: 8:00 AM - 5:00 PM",
+      hoursDesc: "Lun - Vi: 9:00 AM - 6:00 PM" + "\n" + "Sáb: 8:00 AM - 3:00 PM",
       email: "Correo Electrónico",
-      emailDesc: "info@maximummotorsports.cr"
+      emailDesc: "maximumms23@gmail.com"
     },
     en: {
       back: "Back to Base",
@@ -28,11 +28,11 @@ export default function ContactPage() {
       whatsapp: "Chat on WhatsApp",
       whatsappDesc: "Immediate response for sales & support",
       location: "Location",
-      locationDesc: "San Ramon, Costa Rica",
+      locationDesc: "20 meters south of the Police Station in Cóbano, Puntarenas, Cóbano, Puntarenas, Costa Rica",
       hours: "Hours",
-      hoursDesc: "Mon - Sat: 8:00 AM - 5:00 PM",
+      hoursDesc: "Mon - Fri: 9:00 AM - 6:00 PM" + "\n" + "Sat: 8:00 AM - 3:00 PM",
       email: "Email",
-      emailDesc: "info@maximummotorsports.cr"
+      emailDesc: "maximumms23@gmail.com"
     }
   };
 
