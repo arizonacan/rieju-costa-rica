@@ -39,7 +39,7 @@ export default function ContactPage() {
   const t = content[lang as keyof typeof content];
 
   // The client's WhatsApp Number (Include country code, no + or spaces)
-  const whatsappNumber = "50688888888"; 
+  const whatsappNumber = "+506 6108 5846".replace(/\D/g, ''); // This will ensure only numbers are used in the link
   const whatsappMessage = lang === 'es' 
     ? "¡Hola! Estoy interesado en los modelos Rieju." 
     : "Hello! I am interested in the Rieju models.";

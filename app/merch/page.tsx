@@ -43,7 +43,7 @@ export default function MerchPage() {
           "id": _id,
           "name": title,
           "category": category, 
-          "price": "$" + string(price),
+          "price": price,
           "specs": { 
             "material": material, 
             "sizes": sizes
@@ -156,7 +156,9 @@ export default function MerchPage() {
                     <p className="text-zinc-500 text-xs font-mono mt-2">{item.specs.material[lang]}</p>
                   </div>
                   <div className="text-right shrink-0">
-                    <span className="block text-[#D61F26] font-mono font-bold text-xl">{item.price}</span>
+                    <span className="block text-[#D61F26] font-mono font-bold text-xl whitespace-nowrap">
+                      ₡ {Number(bike.price).toLocaleString('en-US')}</span>
+                    <span className="text-[10px] text-zinc-600 uppercase">MSRP</span>
                   </div>
                 </div>
 

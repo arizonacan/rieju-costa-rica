@@ -42,7 +42,7 @@ export default function PartsPage() {
           "id": _id,
           "name": title,
           "category": category, 
-          "price": "₡" + string(price),
+          "price": price,
           "specs": { 
             "partNumber": partNumber, 
             "fitment": fitment,
@@ -178,7 +178,9 @@ export default function PartsPage() {
                     <p className="text-zinc-500 text-[10px] font-mono mt-1">{part.specs.partNumber}</p>
                   </div>
                   <div className="text-right shrink-0">
-                    <span className="block text-[#D61F26] font-mono font-bold text-lg">{part.price}</span>
+                    <span className="block text-[#D61F26] font-mono font-bold text-xl whitespace-nowrap">
+                      ₡ {Number(part.price).toLocaleString('en-US')}</span>
+                    <span className="text-[10px] text-zinc-600 uppercase">MSRP</span>
                   </div>
                 </div>
 
@@ -239,7 +241,7 @@ export default function PartsPage() {
                         {selectedPart.name[lang]}
                     </h2>
                     <div className="flex items-baseline gap-3">
-                        <span className="text-3xl font-mono font-bold text-white">{selectedPart.price}</span>
+                        <span className="text-3xl font-mono font-bold text-white">₡ {Number(selectedPart.price).toLocaleString('en-US')}</span>
                     </div>
                 </div>
 

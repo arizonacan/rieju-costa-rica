@@ -41,7 +41,7 @@ export default function BikesPage() {
           "id": _id,
           "name": model,
           "category": "hard-enduro", 
-          "price": "₡" + string(price),
+          "price": price,
           "description": description,
           "specs": { 
             "engine": description, 
@@ -126,8 +126,9 @@ export default function BikesPage() {
                     <h2 className="text-3xl font-bold uppercase italic">{bike.name}</h2>
                     <p className="text-zinc-500 text-xs font-mono mt-2">{bike.specs.engine[lang]}</p>
                   </div>
-                  <div className="text-right">
-                    <span className="block text-[#D61F26] font-mono font-bold text-xl">{bike.price}</span>
+                  <div className="text-right shrink-0">
+                    <span className="block text-[#D61F26] font-mono font-bold text-xl whitespace-nowrap">
+                      ₡ {Number(bike.price).toLocaleString('en-US')}</span>
                     <span className="text-[10px] text-zinc-600 uppercase">MSRP</span>
                   </div>
                 </div>
@@ -150,7 +151,7 @@ export default function BikesPage() {
           >
             <motion.div 
               initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }}
-              className="bg-zinc-900 border border-zinc-800 w-full max-w-6xl max-h-[90vh] overflow-y-auto md:overflow-hidden flex flex-col md:flex-row relative"
+              className="bg-zinc-900 border border-zinc-800 w-full max-w-7xl max-h-[90vh] overflow-y-auto md:overflow-hidden flex flex-col md:flex-row relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* CLOSE BUTTON */}
@@ -171,50 +172,55 @@ export default function BikesPage() {
               </div>
 
               {/* MODAL RIGHT: INFO */}
-              <div className="w-full md:w-2/5 p-8 md:p-12 flex flex-col">
-                <div className="mb-8">
-                    <span className="text-[#D61F26] font-mono text-xs font-bold tracking-widest uppercase mb-2 block">
+              <div className="w-full md:w-2/5 p-8 md:p-12 flex flex-col min-w-0">
+                <div className="mb-8 min-w-0">
+                    <span className="text-[#D61F26] font-mono text-xs font-bold tracking-widest uppercase mb-2 block truncate">
                         {selectedBike.category.replace("-", " ")}
                     </span>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase italic leading-none mb-4">
+                    {/* Added break-words so massive bike names don't break the screen */}
+                    <h2 className="text-4xl md:text-6xl font-black uppercase italic leading-none mb-4 break-words">
                         {selectedBike.name}
                     </h2>
-                    <div className="flex items-baseline gap-3">
-                        <span className="text-3xl font-mono font-bold text-white">{selectedBike.price}</span>
-                        <span className="text-xs text-zinc-500 uppercase font-mono">MSRP</span>
+                    {/* Fixed Flex container: allowed to wrap if needed, but price stays together */}
+                    <div className="flex items-baseline gap-3 flex-wrap">
+                        <span className="text-3xl font-mono font-bold text-white whitespace-nowrap">
+                            ₡ {Number(selectedBike.price).toLocaleString('en-US')}
+                        </span>
+                        <span className="text-xs text-zinc-500 uppercase font-mono mt-1">MSRP</span>
                     </div>
                 </div>
 
-                <div className="space-y-6 mb-10">
+                <div className="space-y-6 mb-10 w-full">
                     <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-400 border-b border-zinc-800 pb-2 flex items-center gap-2">
                         <Settings2 className="w-4 h-4 text-[#D61F26]" /> {t.labels.details}
                     </h3>
                     
-                    <div className="grid grid-cols-1 gap-4">
-                        <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
-                            <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
+                    <div className="grid grid-cols-1 gap-4 w-full">
+                        <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800 gap-4">
+                            <span className="text-zinc-500 text-xs uppercase flex items-center gap-2 shrink-0">
                                 <Gauge className="w-3 h-3" /> {t.labels.engine}
                             </span>
-                            <span className="text-sm font-mono">{selectedBike.specs.engine[lang]}</span>
+                            <span className="text-sm font-mono text-right break-words">{selectedBike.specs.engine[lang]}</span>
                         </div>
-                        <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
-                            <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
+                        <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800 gap-4">
+                            <span className="text-zinc-500 text-xs uppercase flex items-center gap-2 shrink-0">
                                 <Weight className="w-3 h-3" /> {t.labels.weight}
                             </span>
-                            <span className="text-sm font-mono">{selectedBike.specs.weight[lang]}</span>
+                            <span className="text-sm font-mono text-right break-words">{selectedBike.specs.weight[lang]}</span>
                         </div>
-                        <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
-                            <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
+                        <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800 gap-4">
+                            <span className="text-zinc-500 text-xs uppercase flex items-center gap-2 shrink-0">
                                 <Info className="w-3 h-3" /> {t.labels.suspension}
                             </span>
-                            <span className="text-sm font-mono text-right max-w-[150px]">{selectedBike.specs.suspension[lang]}</span>
+                            {/* Removed the strict max-w-[150px] that was causing weird formatting */}
+                            <span className="text-sm font-mono text-right break-words">{selectedBike.specs.suspension[lang]}</span>
                         </div>
                     </div>
                 </div>
 
                 <button 
                     onClick={() => setSelectedBike(null)}
-                    className="w-full py-5 bg-[#D61F26] text-white font-black uppercase tracking-[0.2em] text-sm hover:bg-white hover:text-black transition-all duration-300 shadow-[0_10px_30px_rgba(214,31,38,0.3)]"
+                    className="w-full py-5 bg-[#D61F26] text-white font-black uppercase tracking-[0.2em] text-sm hover:bg-white hover:text-black transition-all duration-300 shadow-[0_10px_30px_rgba(214,31,38,0.3)] mt-auto"
                 >
                     {t.close}
                 </button>
