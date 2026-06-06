@@ -31,14 +31,15 @@ export default defineType({
           { title: 'Chasis (Chassis)', value: 'chassis' },
           { title: 'Controles (Controls)', value: 'controls' },
           { title: 'Mantenimiento (Maintenance)', value: 'maintenance' },
-          { title: 'Protección (Protection)', value: 'protection' }
+          { title: 'Protección (Protection)', value: 'protection' },
+          { title: 'Extras (Extras)', value: 'extras' }
         ],
         layout: 'radio'
       }
     }),
     defineField({ 
       name: 'price', 
-      title: 'Precio (Number only, no $ sign)', 
+      title: 'Precio ₡ (Price ₡)', 
       type: 'number' 
     }),
     defineField({ 

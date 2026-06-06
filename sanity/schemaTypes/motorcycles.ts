@@ -14,7 +14,7 @@ export default defineType({
     }),
     defineField({
       name: 'price',
-      title: 'Precio (Price $)',
+      title: 'Precio (Price ₡)',
       type: 'number',
     }),
     defineField({
