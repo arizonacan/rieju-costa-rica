@@ -157,7 +157,7 @@ export default function MerchPage() {
                   </div>
                   <div className="text-right shrink-0">
                     <span className="block text-[#D61F26] font-mono font-bold text-xl whitespace-nowrap">
-                      ₡ {Number(bike.price).toLocaleString('en-US')}</span>
+                      ₡ {Number(item.price).toLocaleString('en-US')}</span>
                     <span className="text-[10px] text-zinc-600 uppercase">MSRP</span>
                   </div>
                 </div>
@@ -219,7 +219,7 @@ export default function MerchPage() {
                         {selectedMerch.name[lang]}
                     </h2>
                     <div className="flex items-baseline gap-3">
-                        <span className="text-3xl font-mono font-bold text-white">{selectedMerch.price}</span>
+                        <span className="text-3xl font-mono font-bold text-white">₡ {Number(selectedMerch.price).toLocaleString('en-US')}</span>
                     </div>
                 </div>
 
