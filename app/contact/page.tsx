@@ -2,7 +2,7 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
-import { ArrowLeft, MessageCircle, MapPin, Clock, Mail } from "lucide-react";
+import { ArrowLeft, MessageCircle, MapPin, Clock, Mail, Instagram, Facebook } from "lucide-react";
 
 export default function ContactPage() {
   const { lang, setLang } = useLanguage();
@@ -14,12 +14,15 @@ export default function ContactPage() {
       subtitle: "El terreno te espera. Hablemos.",
       whatsapp: "Chatear por WhatsApp",
       whatsappDesc: "Respuesta inmediata para ventas y soporte",
-      location: "Ubicación",
-      locationDesc: "20 mts Sur Delegacion de Policia en Cóbano Puntarenas, Cóbano, Puntarenas, Costa Rica",
+      location1Title: "Sede Principal - San Ramón",
+      location1Desc: "75 mts Sur de la Parroquia, Barrio Alfaro, San Ramón, Alajuela",
+      location2Title: "Sucursal - Cóbano",
+      location2Desc: "20 mts Sur Delegación de Policia, Cóbano, Puntarenas",
       hours: "Horario",
-      hoursDesc: "Lun - Vi: 9:00 AM - 6:00 PM" + "\n" + "Sáb: 8:00 AM - 3:00 PM",
+      hoursDesc: "Lun - Sáb: 9:00 AM - 5:00 PM",
       email: "Correo Electrónico",
-      emailDesc: "maximumms23@gmail.com"
+      emailDesc: "maximumms23@gmail.com",
+      socials: "Síguenos en Redes"
     },
     en: {
       back: "Back to Base",
@@ -27,29 +30,36 @@ export default function ContactPage() {
       subtitle: "The terrain awaits. Let's talk.",
       whatsapp: "Chat on WhatsApp",
       whatsappDesc: "Immediate response for sales & support",
-      location: "Location",
-      locationDesc: "20 meters south of the Police Station in Cóbano, Puntarenas, Cóbano, Puntarenas, Costa Rica",
+      location1Title: "Headquarters - San Ramón",
+      location1Desc: "75 mts South of the Parish, Alfaro Neighborhood, San Ramón, Alajuela",
+      location2Title: "Branch - Cóbano",
+      location2Desc: "20 meters south of the Police Station, Cóbano, Puntarenas",
       hours: "Hours",
-      hoursDesc: "Mon - Fri: 9:00 AM - 6:00 PM" + "\n" + "Sat: 8:00 AM - 3:00 PM",
+      hoursDesc: "Mon - Sat: 9:00 AM - 5:00 PM",
       email: "Email",
-      emailDesc: "maximumms23@gmail.com"
+      emailDesc: "maximumms23@gmail.com",
+      socials: "Follow Us"
     }
   };
 
   const t = content[lang as keyof typeof content];
 
-  // The client's WhatsApp Number (Include country code, no + or spaces)
-  const whatsappNumber = "+506 6108 5846".replace(/\D/g, ''); // This will ensure only numbers are used in the link
+  // The client's WhatsApp Number
+  const whatsappNumber = "+506 6108 5846".replace(/\D/g, ''); 
   const whatsappMessage = lang === 'es' 
     ? "¡Hola! Estoy interesado en los modelos Rieju." 
     : "Hello! I am interested in the Rieju models.";
   
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
+  // Map Queries
+  const mapSanRamon = "https://maps.app.goo.gl/m6i2q3BU1XWZTf4P8";
+  const mapCobano = "https://maps.app.goo.gl/q2tWxnEPvM44hiS56";
+
   return (
     <div className="relative min-h-[100dvh] w-full overflow-hidden flex flex-col bg-zinc-950 selection:bg-[#D61F26] selection:text-white">
       
-      {/* --- BACKGROUNDS (Matching the Hero exactly) --- */}
+      {/* --- BACKGROUNDS --- */}
       <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0 opacity-50 grayscale-[20%]">
         <source src="/assets/fakeriejumud.mp4" type="video/mp4" />
       </video>
@@ -115,30 +125,54 @@ export default function ContactPage() {
             </div>
           </a>
 
-          {/* SECONDARY INFO CARDS */}
-          <div className="bg-zinc-900/40 backdrop-blur-sm border border-zinc-800 p-8 hover:border-zinc-600 transition-colors flex items-start gap-4">
-            <MapPin className="w-6 h-6 text-[#D61F26] shrink-0" />
+          {/* LOCATION 1: SAN RAMON */}
+          <a href={mapSanRamon} target="_blank" rel="noopener noreferrer" className="bg-zinc-900/40 backdrop-blur-sm border border-zinc-800 p-8 hover:border-[#D61F26] hover:bg-zinc-900/80 transition-all flex items-start gap-4 group">
+            <MapPin className="w-6 h-6 text-[#D61F26] shrink-0 group-hover:scale-110 transition-transform" />
             <div>
-              <h3 className="text-white font-bold uppercase tracking-widest text-sm mb-1">{t.location}</h3>
-              <p className="text-zinc-500 font-mono text-xs">{t.locationDesc}</p>
+              <h3 className="text-white font-bold uppercase tracking-widest text-sm mb-1">{t.location1Title}</h3>
+              <p className="text-zinc-500 font-mono text-xs group-hover:text-zinc-300 transition-colors">{t.location1Desc}</p>
             </div>
-          </div>
+          </a>
 
+          {/* LOCATION 2: COBANO */}
+          <a href={mapCobano} target="_blank" rel="noopener noreferrer" className="bg-zinc-900/40 backdrop-blur-sm border border-zinc-800 p-8 hover:border-[#D61F26] hover:bg-zinc-900/80 transition-all flex items-start gap-4 group">
+            <MapPin className="w-6 h-6 text-[#D61F26] shrink-0 group-hover:scale-110 transition-transform" />
+            <div>
+              <h3 className="text-white font-bold uppercase tracking-widest text-sm mb-1">{t.location2Title}</h3>
+              <p className="text-zinc-500 font-mono text-xs group-hover:text-zinc-300 transition-colors">{t.location2Desc}</p>
+            </div>
+          </a>
+
+          {/* HOURS */}
           <div className="bg-zinc-900/40 backdrop-blur-sm border border-zinc-800 p-8 hover:border-zinc-600 transition-colors flex items-start gap-4">
             <Clock className="w-6 h-6 text-[#D61F26] shrink-0" />
             <div>
               <h3 className="text-white font-bold uppercase tracking-widest text-sm mb-1">{t.hours}</h3>
-              <p className="text-zinc-500 font-mono text-xs">{t.hoursDesc}</p>
+              <p className="text-zinc-500 font-mono text-xs whitespace-pre-line">{t.hoursDesc}</p>
             </div>
           </div>
 
-          <a href={`mailto:${t.emailDesc}`} className="md:col-span-2 bg-zinc-900/40 backdrop-blur-sm border border-zinc-800 p-8 hover:border-zinc-600 hover:bg-zinc-900/60 transition-colors flex items-center gap-4 group">
+          {/* EMAIL */}
+          <a href={`mailto:${t.emailDesc}`} className="bg-zinc-900/40 backdrop-blur-sm border border-zinc-800 p-8 hover:border-[#D61F26] hover:bg-zinc-900/80 transition-all flex items-center gap-4 group">
             <Mail className="w-6 h-6 text-zinc-500 group-hover:text-[#D61F26] transition-colors shrink-0" />
             <div>
               <h3 className="text-white font-bold uppercase tracking-widest text-sm mb-1">{t.email}</h3>
-              <p className="text-zinc-500 font-mono text-xs">{t.emailDesc}</p>
+              <p className="text-zinc-500 font-mono text-xs group-hover:text-zinc-300 transition-colors">{t.emailDesc}</p>
             </div>
           </a>
+
+          {/* SOCIALS */}
+          <div className="md:col-span-2 bg-zinc-900/40 backdrop-blur-sm border border-zinc-800 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 mt-2">
+            <span className="text-white font-bold uppercase tracking-widest text-sm text-center sm:text-left">{t.socials}</span>
+            <div className="flex gap-4">
+              <a href="https://www.instagram.com/maximummotorsportscr_rieju/" target="_blank" rel="noopener noreferrer" className="p-3 bg-zinc-950 border border-zinc-800 hover:border-[#D61F26] hover:text-[#D61F26] text-zinc-400 transition-all rounded-full">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="https://www.facebook.com/Maximummotorsports23/" target="_blank" rel="noopener noreferrer" className="p-3 bg-zinc-950 border border-zinc-800 hover:border-[#D61F26] hover:text-[#D61F26] text-zinc-400 transition-all rounded-full">
+                <Facebook className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
 
         </div>
       </div>
