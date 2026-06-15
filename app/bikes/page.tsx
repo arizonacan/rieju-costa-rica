@@ -163,13 +163,13 @@ export default function BikesPage() {
               </button>
 
               {/* MODAL LEFT: IMAGE */}
-              <div className="w-full md:w-3/5 h-[40vh] md:h-full bg-zinc-800/30 flex items-center justify-center p-8 border-b md:border-b-0 md:border-r border-zinc-800">
-                <img 
-                    src={selectedBike.image} 
-                    alt={selectedBike.name} 
-                    className="absolute inset-0 w-full h-full object-contain p-8 drop-shadow-[0_20px_50px_rgba(214,31,38,0.2)]" 
-                />
-              </div>
+<div className="w-full md:w-3/5 flex items-center justify-center p-8 md:p-12 border-b md:border-b-0 md:border-r border-zinc-800 bg-zinc-800/30 min-h-[40vh] md:min-h-0">
+  <img 
+      src={selectedBike?.image} 
+      alt={selectedBike?.name} 
+      className="w-full h-full max-h-[40vh] md:max-h-[85vh] object-contain drop-shadow-[0_20px_50px_rgba(214,31,38,0.2)]" 
+  />
+</div>
 
               {/* MODAL RIGHT: INFO */}
               <div className="w-full md:w-2/5 p-8 md:p-12 flex flex-col min-w-0 overflow-y-auto max-h-[90vh]">
