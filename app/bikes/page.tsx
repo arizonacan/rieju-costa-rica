@@ -151,7 +151,7 @@ export default function BikesPage() {
           >
             <motion.div 
               initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }}
-              className="bg-zinc-900 border border-zinc-800 w-full max-w-7xl max-h-[90vh] overflow-y-auto md:overflow-hidden flex flex-col md:flex-row relative"
+              className="bg-zinc-900 border border-zinc-800 w-full max-w-7xl max-h-[90vh] overflow-hidden md:overflow-hidden flex flex-col md:flex-row relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* CLOSE BUTTON */}
@@ -163,16 +163,16 @@ export default function BikesPage() {
               </button>
 
               {/* MODAL LEFT: IMAGE */}
-              <div className="w-full md:w-3/5 bg-zinc-800/30 flex items-center justify-center p-8 border-b md:border-b-0 md:border-r border-zinc-800">
+              <div className="w-full md:w-3/5 h-[40vh] md:h-full bg-zinc-800/30 flex items-center justify-center p-8 border-b md:border-b-0 md:border-r border-zinc-800">
                 <img 
                     src={selectedBike.image} 
                     alt={selectedBike.name} 
-                    className="max-h-[60vh] object-contain drop-shadow-[0_20px_50px_rgba(214,31,38,0.2)]" 
+                    className="absolute inset-0 w-full h-full object-contain p-8 drop-shadow-[0_20px_50px_rgba(214,31,38,0.2)]" 
                 />
               </div>
 
               {/* MODAL RIGHT: INFO */}
-              <div className="w-full md:w-2/5 p-8 md:p-12 flex flex-col min-w-0">
+              <div className="w-full md:w-2/5 p-8 md:p-12 flex flex-col min-w-0 overflow-y-auto max-h-[90vh]">
                 <div className="mb-8 min-w-0">
                     <span className="text-[#D61F26] font-mono text-xs font-bold tracking-widest uppercase mb-2 block truncate">
                         {/* @ts-expect-error */}
