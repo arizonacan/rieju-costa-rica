@@ -26,13 +26,17 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Ropa (Apparel)', value: 'apparel' },
-          { title: 'Accesorios (Accessories)', value: 'accessories' },
-          { title: 'Gafas (Goggles)', value: 'goggles' },
-          { title: 'Nutrición (Nutrition)', value: 'nutrition' }
+          { title: 'Ropa (Apparel)', value: 'ropa' },
+          { title: 'Accesorios (Accessories)', value: 'accesorios' },
+          { title: 'Trajes (Suits/Gear)', value: 'trajes' },
+          { title: 'Botas (Boots)', value: 'botas' },
+          { title: 'Cascos (Helmets)', value: 'cascos' },
+          { title: 'Gafas (Goggles)', value: 'gafas' },
+          { title: 'Nutrición (Nutrition)', value: 'nutricion' }
         ],
-        layout: 'radio'
-      }
+        layout: 'dropdown'
+      },
+      validation: (Rule) => Rule.required().error('¡La categoría es obligatoria! / Category is required!')
     }),
     defineField({ 
       name: 'price', 
