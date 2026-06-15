@@ -149,7 +149,7 @@ export default function MerchPage() {
                   className="w-full h-full object-contain p-6 opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
                 />
               </div>
-              <div className="p-8 flex flex-col flex-grow">
+              <div className="p-8 flex flex-col grow">
                 <div className="flex justify-between items-start mb-6">
                   <div className="pr-4">
                     <h2 className="text-2xl font-bold uppercase italic font-sans leading-tight">{item.name?.[lang] || "Untitled"}</h2>
@@ -191,7 +191,7 @@ export default function MerchPage() {
           >
             <motion.div 
               initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }}
-              className="bg-zinc-900 border border-zinc-800 w-full max-w-6xl max-h-[90vh] overflow-y-auto md:overflow-hidden flex flex-col md:flex-row relative"
+              className="bg-zinc-900 border border-zinc-800 w-full max-w-7xl max-h-[90vh] overflow-y-auto flex flex-col md:flex-row relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* CLOSE BUTTON */}
@@ -203,7 +203,7 @@ export default function MerchPage() {
               </button>
 
               {/* MODAL LEFT: IMAGE */}
-              <div className="w-full md:w-3/5 bg-zinc-800/30 flex items-center justify-center p-12 border-b md:border-b-0 md:border-r border-zinc-800">
+              <div className="w-full md:w-1/2 bg-zinc-800/30 flex items-center justify-center p-12 border-b md:border-b-0 md:border-r border-zinc-800">
                 <img 
                     src={selectedMerch.image} 
                     alt={selectedMerch.name?.[lang] || "Untitled"} 
@@ -212,13 +212,13 @@ export default function MerchPage() {
               </div>
 
               {/* MODAL RIGHT: INFO */}
-              <div className="w-full md:w-2/5 p-8 md:p-12 flex flex-col">
-                <div className="mb-8">
+              <div className="w-full md:w-2/5 p-8 md:p-12 flex flex-col min-w-0">
+                <div className="mb-8 min-w-0">
                     <span className="text-[#D61F26] font-mono text-xs font-bold tracking-widest uppercase mb-2 block">
                         {/* @ts-expect-error */}
                         {t.filters[selectedMerch.category] || selectedMerch.category}
                     </span>
-                    <h2 className="text-4xl md:text-5xl font-black uppercase italic leading-none mb-4">
+                    <h2 className="text-4xl md:text-5xl font-black uppercase italic leading-none mb-4 wrap-break-word">
                         {selectedMerch.name?.[lang] || "Untitled"}
                     </h2>
                     <div className="flex items-baseline gap-3">
