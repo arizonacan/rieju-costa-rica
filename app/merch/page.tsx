@@ -203,7 +203,7 @@ export default function MerchPage() {
               </button>
 
               {/* MODAL LEFT: IMAGE */}
-              <div className="w-full md:w-1/2 bg-zinc-800/30 flex items-center justify-center p-12 border-b md:border-b-0 md:border-r border-zinc-800">
+              <div className="w-full md:w-2/5 bg-zinc-800/30 flex items-center justify-center p-12 border-b md:border-b-0 md:border-r border-zinc-800">
                 <img 
                     src={selectedMerch.image} 
                     alt={selectedMerch.name?.[lang] || "Untitled"} 
@@ -212,7 +212,7 @@ export default function MerchPage() {
               </div>
 
               {/* MODAL RIGHT: INFO */}
-              <div className="w-full md:w-2/5 p-8 md:p-12 flex flex-col min-w-0">
+              <div className="w-full md:w-3/5 p-8 md:p-12 flex flex-col min-w-0">
                 <div className="mb-8 min-w-0">
                     <span className="text-[#D61F26] font-mono text-xs font-bold tracking-widest uppercase mb-2 block">
                         {/* @ts-expect-error */}
