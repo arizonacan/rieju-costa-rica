@@ -169,7 +169,10 @@ export default function MerchPage() {
                    </div>
                    <div className="flex flex-col text-right">
                       <span className={styles.specLabel}>{t.labels.category}</span>
-                      <span className="uppercase text-white">{item.category}</span>
+                      <span className="uppercase text-white">
+                        {/* @ts-expect-error */}
+                        {t.filters[item.category] || item.category}
+                      </span>
                    </div>
                 </div>
               </div>
