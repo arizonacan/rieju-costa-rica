@@ -40,7 +40,7 @@ export default function BikesPage() {
         *[_type == "motorcycle"]{
           "id": _id,
           "name": model,
-          "category": "hard-enduro", 
+          "category": category, 
           "price": price,
           "description": description,
           "specs": { 
@@ -60,7 +60,7 @@ export default function BikesPage() {
     es: {
       back: "Volver a Base",
       title: "Modelos",
-      filters: { all: "Todos", "hard-enduro": "Hard Enduro" },
+      filters: { all: "Todos", "mr-enduro": "MR/Enduro", xplora: "Xplora", aventura: "Aventura", electricas: "Eléctricas" },
       viewSpecs: "Ver Detalles",
       close: "Cerrar",
       labels: { suspension: "Suspensión", category: "Categoría", weight: "Peso", engine: "Motor", details: "Especificaciones Técnicas" }
@@ -68,7 +68,7 @@ export default function BikesPage() {
     en: {
       back: "Back to Base",
       title: "2026 Models",
-      filters: { all: "All", "hard-enduro": "Hard Enduro" },
+      filters: { all: "All", "mr-enduro": "MR/Enduro", xplora: "Xplora", aventura: "Aventura", electricas: "Electric" },
       viewSpecs: "View Details",
       close: "Close",
       labels: { suspension: "Suspension", category: "Category", weight: "Weight", engine: "Engine", details: "Technical Specs" }
@@ -99,7 +99,7 @@ export default function BikesPage() {
         <Link href="/" className={styles.backLink}><ArrowLeft className="w-4 h-4 mr-2" /> {t.back}</Link>
         <h1 className={styles.title}>{t.title}</h1>
         <div className="flex gap-4 mb-12 overflow-x-auto pb-4 scrollbar-hide">
-          {["all", "hard-enduro"].map((cat) => (
+          {["all", "mr-enduro", "xplora", "aventura", "electricas"].map((cat) => (
             <button key={cat} onClick={() => setFilter(cat)} className={`${styles.filterBtnBase} ${filter === cat ? styles.filterActive : styles.filterInactive}`}>
                {/* @ts-expect-error */}
               {t.filters[cat]}
@@ -175,7 +175,8 @@ export default function BikesPage() {
               <div className="w-full md:w-2/5 p-8 md:p-12 flex flex-col min-w-0">
                 <div className="mb-8 min-w-0">
                     <span className="text-[#D61F26] font-mono text-xs font-bold tracking-widest uppercase mb-2 block truncate">
-                        {selectedBike.category.replace("-", " ")}
+                        {/* @ts-expect-error */}
+                        {t.filters[selectedBike.category] || selectedBike.category.category}
                     </span>
                     {/* Added break-words so massive bike names don't break the screen */}
                     <h2 className="text-4xl md:text-6xl font-black uppercase italic leading-none mb-4 break-words">
