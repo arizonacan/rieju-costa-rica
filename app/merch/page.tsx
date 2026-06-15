@@ -145,15 +145,15 @@ export default function MerchPage() {
               <div className={styles.cardImage}>
                 <img 
                   src={item.image} 
-                  alt={item.name[lang]}
+                  alt={item.name?.[lang] || "Untitled"}
                   className="w-full h-full object-contain p-6 opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
                 />
               </div>
               <div className="p-8 flex flex-col flex-grow">
                 <div className="flex justify-between items-start mb-6">
                   <div className="pr-4">
-                    <h2 className="text-2xl font-bold uppercase italic font-sans leading-tight">{item.name[lang]}</h2>
-                    <p className="text-zinc-500 text-xs font-mono mt-2">{item.specs.material[lang]}</p>
+                    <h2 className="text-2xl font-bold uppercase italic font-sans leading-tight">{item.name?.[lang] || "Untitled"}</h2>
+                    <p className="text-zinc-500 text-xs font-mono mt-2">{item.specs?.material?.[lang]}</p>
                   </div>
                   <div className="text-right shrink-0">
                     <span className="block text-[#D61F26] font-mono font-bold text-xl whitespace-nowrap">
@@ -165,7 +165,7 @@ export default function MerchPage() {
                 <div className="grid grid-cols-2 gap-4 text-xs text-zinc-400 font-mono border-t border-zinc-800 pt-6 mt-auto">
                    <div className="flex flex-col">
                       <span className={styles.specLabel}>{t.labels.sizes}</span>
-                      <span className="text-white">{item.specs.sizes[lang]}</span>
+                      <span className="text-white">{item.specs?.sizes?.[lang] || "N/A"}</span>
                    </div>
                    <div className="flex flex-col text-right">
                       <span className={styles.specLabel}>{t.labels.category}</span>
@@ -203,7 +203,7 @@ export default function MerchPage() {
               <div className="w-full md:w-3/5 bg-zinc-800/30 flex items-center justify-center p-12 border-b md:border-b-0 md:border-r border-zinc-800">
                 <img 
                     src={selectedMerch.image} 
-                    alt={selectedMerch.name[lang]} 
+                    alt={selectedMerch.name?.[lang] || "Untitled"} 
                     className="max-h-[60vh] object-contain drop-shadow-[0_20px_50px_rgba(214,31,38,0.15)]" 
                 />
               </div>
@@ -216,7 +216,7 @@ export default function MerchPage() {
                         {t.filters[selectedMerch.category] || selectedMerch.category}
                     </span>
                     <h2 className="text-4xl md:text-5xl font-black uppercase italic leading-none mb-4">
-                        {selectedMerch.name[lang]}
+                        {selectedMerch.name?.[lang] || "Untitled"}
                     </h2>
                     <div className="flex items-baseline gap-3">
                         <span className="text-3xl font-mono font-bold text-white">₡ {Number(selectedMerch.price).toLocaleString('en-US')}</span>
@@ -233,13 +233,13 @@ export default function MerchPage() {
                             <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
                                 <Layers className="w-3 h-3" /> {t.labels.material}
                             </span>
-                            <span className="text-sm font-mono text-right">{selectedMerch.specs.material[lang]}</span>
+                            <span className="text-sm font-mono text-right">{selectedMerch.specs?.material?.[lang] || "N/A"}</span>
                         </div>
                         <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
                             <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
                                 <Ruler className="w-3 h-3" /> {t.labels.sizes}
                             </span>
-                            <span className="text-sm font-mono text-right">{selectedMerch.specs.sizes[lang]}</span>
+                            <span className="text-sm font-mono text-right">{selectedMerch.specs?.sizes?.[lang] || "N/A"}</span>
                         </div>
                         <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
                             <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
