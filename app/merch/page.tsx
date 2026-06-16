@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "next-sanity";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, X, Settings2, Ruler, Layers, Tag } from "lucide-react";
+import { ArrowLeft, X, Settings2, Tag } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 // --- 1. SANITY CONFIG ---
@@ -44,10 +44,6 @@ export default function MerchPage() {
           "name": title,
           "category": category, 
           "price": price,
-          "specs": { 
-            "material": material, 
-            "sizes": sizes
-          },
           "image": mainImage.asset->url
         }
       `);
@@ -64,7 +60,7 @@ export default function MerchPage() {
       filters: { all: "Todo", ropa: "Ropa", accesorios: "Accesorios", trajes: "Trajes", botas: "Botas", cascos: "Cascos", gafas: "Gafas", nutricion: "Nutrición" },
       close: "Cerrar",
       details: "Detalles del Producto",
-      labels: { sizes: "Tallas", material: "Material", category: "Categoría" }
+      labels: { category: "Categoría" }
     },
     en: {
       back: "Back to Base",
@@ -72,7 +68,7 @@ export default function MerchPage() {
       filters: { all: "All", ropa: "Apparel", accesorios: "Accessories", trajes: "Suits", botas: "Boots", cascos: "Helmets", gafas: "Goggles", nutricion: "Nutrition" },
       close: "Close",
       details: "Product Details",
-      labels: { sizes: "Sizes", material: "Material", category: "Category" }
+      labels: { category: "Category" }
     }
   };
 
@@ -153,7 +149,6 @@ export default function MerchPage() {
                 <div className="flex justify-between items-start mb-6">
                   <div className="pr-4">
                     <h2 className="text-2xl font-bold uppercase italic font-sans leading-tight">{item.name?.[lang] || "Untitled"}</h2>
-                    <p className="text-zinc-500 text-xs font-mono mt-2">{item.specs?.material?.[lang]}</p>
                   </div>
                   <div className="text-right shrink-0">
                     <span className="block text-[#D61F26] font-mono font-bold text-xl whitespace-nowrap">
@@ -162,18 +157,12 @@ export default function MerchPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 text-xs text-zinc-400 font-mono border-t border-zinc-800 pt-6 mt-auto">
-                   <div className="flex flex-col">
-                      <span className={styles.specLabel}>{t.labels.sizes}</span>
-                      <span className="text-white">{item.specs?.sizes?.[lang] || "N/A"}</span>
-                   </div>
-                   <div className="flex flex-col text-right">
-                      <span className={styles.specLabel}>{t.labels.category}</span>
-                      <span className="uppercase text-white">
-                        {/* @ts-expect-error */}
-                        {t.filters[item.category] || item.category}
-                      </span>
-                   </div>
+                <div className="flex justify-between items-end text-xs text-zinc-400 font-mono border-t border-zinc-800 pt-6 mt-auto">
+                   <span className={styles.specLabel}>{t.labels.category}</span>
+                   <span className="uppercase text-white">
+                     {/* @ts-expect-error */}
+                     {t.filters[item.category] || item.category}
+                   </span>
                 </div>
               </div>
             </motion.div>
@@ -232,18 +221,6 @@ export default function MerchPage() {
                     </h3>
                     
                     <div className="grid grid-cols-1 gap-4">
-                        <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
-                            <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
-                                <Layers className="w-3 h-3" /> {t.labels.material}
-                            </span>
-                            <span className="text-sm font-mono text-right">{selectedMerch.specs?.material?.[lang] || "N/A"}</span>
-                        </div>
-                        <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
-                            <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
-                                <Ruler className="w-3 h-3" /> {t.labels.sizes}
-                            </span>
-                            <span className="text-sm font-mono text-right">{selectedMerch.specs?.sizes?.[lang] || "N/A"}</span>
-                        </div>
                         <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
                             <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
                                 <Tag className="w-3 h-3" /> {t.labels.category}
