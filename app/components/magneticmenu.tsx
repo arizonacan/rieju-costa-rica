@@ -9,7 +9,7 @@ import { useLanguage } from "@/context/LanguageContext";
 const menuTranslations = {
   es: [
     { label: "Motos", path: "/bikes" },
-    { label: "Partes", path: "/parts" },
+    { label: "Accesorios y Cuidado", path: "/parts" },
     { label: "Ropa y Equipo", path: "/merch" },
     { label: "Noticias", path: "/news" },
     { label: "Galería", path: "/gallery" }, 
@@ -17,7 +17,7 @@ const menuTranslations = {
   ],
   en: [
     { label: "Bikes", path: "/bikes" },
-    { label: "Parts", path: "/parts" },
+    { label: "Accessories & Care", path: "/parts" },
     { label: "Apparel & Gear", path: "/merch" },
     { label: "News", path: "/news" },
     { label: "Gallery", path: "/gallery" }, 
