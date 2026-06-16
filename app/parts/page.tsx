@@ -61,35 +61,37 @@ export default function PartsPage() {
   const content = {
     es: {
       back: "Volver a Base",
-      title: "Catálogo de Partes",
-      // ADDED THE NEW TRANSLATIONS HERE!
-      filters: { all: "Todos", controls: "Controles", drivetrain: "Transmisión", engine: "Motor", chassis: "Chasis", maintenance: "Mantenimiento", protection: "Protección", extras: "Extras" },
-      viewSpecs: "Ver Detalles",
+      title: "Accesorios y Cuidado",
+      searchPlaceholder: "Buscar accesorios o número de parte...",
+      filters: { all: "Todo", extras: "Extras", protection: "Protección", care: "Cuidado de la Moto" },
       close: "Cerrar",
-      details: "Especificaciones de la Parte",
-      labels: { fitment: "Compatibilidad", category: "Categoría", partNumber: "Nº de Parte", stock: "Inventario" },
-      searchPlaceholder: "Buscar por nombre o número de parte..."
+      details: "Detalles del Producto",
+      labels: { category: "Categoría", compatibility: "Compatibilidad", partNumber: "Nº de Parte", fitment: "Ajuste", stock: "Inventario" }
     },
     en: {
       back: "Back to Base",
-      title: "Parts Catalog",
-      // ADDED THE NEW TRANSLATIONS HERE!
-      filters: { all: "All", controls: "Controls", drivetrain: "Drivetrain", engine: "Engine", chassis: "Chassis", maintenance: "Maintenance", protection: "Protection", extras: "Extras" },
-      viewSpecs: "View Details",
+      title: "Accessories & Care",
+      searchPlaceholder: "Search accessories or part numbers...",
+      filters: { all: "All", extras: "Extras", protection: "Protection", care: "Motorcycle Care" },
       close: "Close",
-      details: "Part Specifications",
-      labels: { fitment: "Fitment", category: "Category", partNumber: "Part No.", stock: "Availability" },
-      searchPlaceholder: "Search by name or part number..."
+      details: "Product Details",
+      labels: { category: "Category", compatibility: "Compatibility", partNumber: "Part Number", fitment: "Fitment", stock: "Stock" }
     }
   };
 
   const t = content[lang as keyof typeof content];
   
   const filteredParts = parts.filter((part: any) => {
-    const matchesCategory = filter === "all" || part.category === filter;
+    // 1. Filter by category
+    const matchesCategory = filter === "all" || part?.category === filter;
+    
+    // 2. Filter by search (safely extracting strings first)
     const searchLower = searchQuery.toLowerCase();
-    const matchesSearch = part.name.toLowerCase().includes(searchLower) || 
-                          (part.specs.partNumber && part.specs.partNumber.toLowerCase().includes(searchLower));
+    const nameString = part?.name?.[lang] || "";
+    const partNumString = part?.specs?.partNumber || "";
+    
+    const matchesSearch = nameString.toLowerCase().includes(searchLower) || 
+                          partNumString.toLowerCase().includes(searchLower);
     
     return matchesCategory && matchesSearch;
   });
@@ -138,7 +140,7 @@ export default function PartsPage() {
 
         <div className="flex gap-4 mb-12 overflow-x-auto pb-4 scrollbar-hide">
           {/* UPDATED THE BUTTON ARRAY HERE! */}
-          {["all", "controls", "drivetrain", "engine", "chassis", "maintenance", "protection", "extras"].map((cat) => (
+          {["all", "extras", "protection", "care"].map((cat) => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}
@@ -174,8 +176,8 @@ export default function PartsPage() {
               <div className="p-6 flex flex-col flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <div className="pr-2">
-                    <h2 className="text-lg font-bold uppercase italic font-sans leading-tight">{part.name[lang]}</h2>
-                    <p className="text-zinc-500 text-[10px] font-mono mt-1">{part.specs.partNumber}</p>
+                    <h2 className="text-lg font-bold uppercase italic font-sans leading-tight">{part?.name?.[lang] || "Untitled"}</h2>
+                    <p className="text-zinc-500 text-[10px] font-mono mt-1">{part?.specs?.partNumber || "N/A"}</p>
                   </div>
                   <div className="text-right shrink-0">
                     <span className="block text-[#D61F26] font-mono font-bold text-xl whitespace-nowrap">
@@ -224,8 +226,8 @@ export default function PartsPage() {
               {/* MODAL LEFT: IMAGE */}
               <div className="w-full md:w-1/2 bg-zinc-800/30 flex items-center justify-center p-12 border-b md:border-b-0 md:border-r border-zinc-800">
                 <img 
-                    src={selectedPart.image} 
-                    alt={selectedPart.name[lang]} 
+                    src={selectedPart?.image} 
+                    alt={selectedPart?.name?.[lang] || "Untitled"} 
                     className="max-h-[50vh] object-contain drop-shadow-2xl" 
                 />
               </div>
@@ -235,13 +237,13 @@ export default function PartsPage() {
                 <div className="mb-8">
                     <span className="text-[#D61F26] font-mono text-xs font-bold tracking-widest uppercase mb-2 block">
                         {/* @ts-expect-error */}
-                        {t.filters[selectedPart.category] || selectedPart.category}
+                        {t.filters[selectedPart?.category] || selectedPart?.category}
                     </span>
                     <h2 className="text-3xl md:text-5xl font-black uppercase italic leading-none mb-4">
-                        {selectedPart.name[lang]}
+                        {selectedPart?.name?.[lang] || "Untitled"}
                     </h2>
                     <div className="flex items-baseline gap-3">
-                        <span className="text-3xl font-mono font-bold text-white">₡ {Number(selectedPart.price).toLocaleString('en-US')}</span>
+                        <span className="text-3xl font-mono font-bold text-white">₡ {Number(selectedPart?.price).toLocaleString('en-US')}</span>
                     </div>
                 </div>
 
@@ -255,13 +257,13 @@ export default function PartsPage() {
                             <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
                                 <Hash className="w-3 h-3" /> {t.labels.partNumber}
                             </span>
-                            <span className="text-sm font-mono text-right text-white">{selectedPart.specs.partNumber}</span>
+                            <span className="text-sm font-mono text-right text-white">{selectedPart?.specs?.partNumber || "N/A"}</span>
                         </div>
                         <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
                             <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
                                 <Wrench className="w-3 h-3" /> {t.labels.fitment}
                             </span>
-                            <span className="text-sm font-mono text-right text-white">{selectedPart.specs.fitment[lang]}</span>
+                            <span className="text-sm font-mono text-right text-white">{selectedPart?.specs?.fitment?.[lang] || "N/A"}</span>
                         </div>
                         <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
                             <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">

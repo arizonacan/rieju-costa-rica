@@ -26,16 +26,13 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Transmisión (Drivetrain)', value: 'drivetrain' },
-          { title: 'Motor (Engine)', value: 'engine' },
-          { title: 'Chasis (Chassis)', value: 'chassis' },
-          { title: 'Controles (Controls)', value: 'controls' },
-          { title: 'Mantenimiento (Maintenance)', value: 'maintenance' },
+          { title: 'Extras (Extras)', value: 'extras' },
           { title: 'Protección (Protection)', value: 'protection' },
-          { title: 'Extras (Extras)', value: 'extras' }
+          { title: 'Cuidado de la Moto (Motorcycle Care)', value: 'care' }
         ],
-        layout: 'radio'
-      }
+        layout: 'dropdown'
+      },
+      validation: (Rule) => Rule.required().error('¡La categoría es obligatoria! / Category is required!')
     }),
     defineField({ 
       name: 'price', 
