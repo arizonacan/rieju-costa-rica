@@ -80,4 +80,20 @@ export default defineType({
       options: { hotspot: true } 
     }),
   ],
+  // --- ADDED: PREMIUM STUDIO PREVIEW UI ---
+  preview: {
+    select: {
+      title: 'title.es', // Pulls the Spanish title for the list view
+      subtitle: 'partNumber', // Shows the part number under the title
+      media: 'mainImage'
+    },
+    prepare(selection) {
+      const { title, subtitle, media } = selection;
+      return {
+        title: title || 'Sin Título (Untitled)',
+        subtitle: subtitle ? `Nº: ${subtitle}` : 'Sin número de parte',
+        media: media
+      };
+    }
+  }
 })
