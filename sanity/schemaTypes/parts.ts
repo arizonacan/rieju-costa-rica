@@ -46,34 +46,6 @@ export default defineType({
       description: 'e.g., RJ-10948'
     }),
     defineField({ 
-      name: 'fitment', 
-      title: 'Compatibilidad (Fitment)', 
-      type: 'object',
-      fields: [
-        { name: 'es', title: 'Español (Spanish) - e.g., MR Pro 2021-2026', type: 'string' },
-        { 
-          name: 'en', 
-          title: 'Inglés (English) - e.g., MR Pro 2021-2026', 
-          type: 'string',
-          components: { input: MagicTranslator }
-        }
-      ]
-    }),
-    defineField({ 
-      name: 'stock', 
-      title: 'Inventario (Stock Status)', 
-      type: 'object',
-      fields: [
-        { name: 'es', title: 'Español (Spanish) - e.g., En Inventario, 2 Disponibles', type: 'string' },
-        { 
-          name: 'en', 
-          title: 'Inglés (English) - e.g., In Stock, 2 Left', 
-          type: 'string',
-          components: { input: MagicTranslator }
-        }
-      ]
-    }),
-    defineField({ 
       name: 'mainImage', 
       title: 'Foto Principal (Main Image)', 
       type: 'image', 

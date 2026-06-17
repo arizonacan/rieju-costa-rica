@@ -189,11 +189,13 @@ export default function PartsPage() {
                 <div className="grid grid-cols-2 gap-2 text-[10px] text-zinc-400 font-mono border-t border-zinc-800 pt-4 mt-auto">
                    <div className="flex flex-col">
                       <span className={styles.specLabel}>{t.labels.fitment}</span>
-                      <span className="text-white truncate" title={part.specs.fitment}>{part.specs.fitment[lang]}</span>
+                      <span className="text-white truncate" title={part?.specs?.fitment?.[lang] || "N/A"}>
+                        {part?.specs?.fitment?.[lang] || "N/A"}
+                      </span>
                    </div>
                    <div className="flex flex-col text-right">
                       <span className={styles.specLabel}>{t.labels.stock}</span>
-                      <span className="text-white">{part.specs.stock[lang]}</span>
+                      <span className="text-white">{part?.specs?.stock?.[lang] || "N/A"}</span>
                    </div>
                 </div>
               </div>
@@ -269,7 +271,7 @@ export default function PartsPage() {
                             <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
                                 <Package className="w-3 h-3" /> {t.labels.stock}
                             </span>
-                            <span className="text-sm font-mono text-right text-[#D61F26]">{selectedPart.specs.stock[lang]}</span>
+                            <span className="text-sm font-mono text-right text-[#D61F26]">{selectedPart?.specs?.stock?.[lang] || "N/A"}</span>
                         </div>
                     </div>
                 </div>
