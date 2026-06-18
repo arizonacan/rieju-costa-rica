@@ -248,37 +248,9 @@ export default function PartsPage() {
                         <span className="text-3xl font-mono font-bold text-white">₡ {Number(selectedPart?.price).toLocaleString('en-US')}</span>
                     </div>
                 </div>
-
-                <div className="space-y-6 mb-10">
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-400 border-b border-zinc-800 pb-2 flex items-center gap-2">
-                        <Settings2 className="w-4 h-4 text-[#D61F26]" /> {t.details}
-                    </h3>
-                    
-                    <div className="grid grid-cols-1 gap-4">
-                        <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
-                            <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
-                                <Hash className="w-3 h-3" /> {t.labels.partNumber}
-                            </span>
-                            <span className="text-sm font-mono text-right text-white">{selectedPart?.specs?.partNumber || "N/A"}</span>
-                        </div>
-                        <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
-                            <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
-                                <Wrench className="w-3 h-3" /> {t.labels.fitment}
-                            </span>
-                            <span className="text-sm font-mono text-right text-white">{selectedPart?.specs?.fitment?.[lang] || "N/A"}</span>
-                        </div>
-                        <div className="flex justify-between items-center bg-zinc-950/50 p-4 rounded-sm border border-zinc-800">
-                            <span className="text-zinc-500 text-xs uppercase flex items-center gap-2">
-                                <Package className="w-3 h-3" /> {t.labels.stock}
-                            </span>
-                            <span className="text-sm font-mono text-right text-[#D61F26]">{selectedPart?.specs?.stock?.[lang] || "N/A"}</span>
-                        </div>
-                    </div>
-                </div>
-
                 <button 
                     onClick={() => setSelectedPart(null)}
-                    className="w-full py-5 bg-zinc-950 border border-zinc-800 text-white font-black uppercase tracking-[0.2em] text-sm hover:bg-[#D61F26] hover:border-[#D61F26] transition-all duration-300 mt-auto"
+                    className="w-full py-5 bg-[#D61F26] text-white font-black uppercase tracking-[0.2em] text-sm hover:bg-white hover:text-black transition-all duration-300 shadow-[0_10px_30px_rgba(214,31,38,0.3)] mt-auto"
                 >
                     {t.close}
                 </button>
