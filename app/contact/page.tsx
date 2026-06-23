@@ -162,15 +162,28 @@ export default function ContactPage() {
           </a>
 
           {/* SOCIALS */}
-          <div className="md:col-span-2 bg-zinc-900/40 backdrop-blur-sm border border-zinc-800 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 mt-2">
-            <span className="text-white font-bold uppercase tracking-widest text-sm text-center sm:text-left">{t.socials}</span>
-            <div className="flex gap-4">
-              <a href="https://www.instagram.com/maximummotorsportscr_rieju/" target="_blank" rel="noopener noreferrer" className="p-3 bg-zinc-950 border border-zinc-800 hover:border-[#D61F26] hover:text-[#D61F26] text-zinc-400 transition-all rounded-full">
-                <Instagram className="w-5 h-5" />
+          <div className="md:col-span-2 bg-zinc-900/40 backdrop-blur-sm border border-zinc-800 p-6 flex flex-col sm:flex-row items-center justify-between gap-6 mt-2">
+            <span className="text-white font-bold uppercase tracking-widest text-sm text-center sm:text-left shrink-0">{t.socials}</span>
+            <div className="flex flex-wrap justify-center sm:justify-end gap-4">
+              
+              <a href="https://www.instagram.com/maximummotorsportscr_rieju/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-zinc-950 border border-zinc-800 hover:border-[#D61F26] hover:text-[#D61F26] text-zinc-400 transition-all rounded-full text-xs font-mono">
+                <Instagram className="w-4 h-4" />
+                <span className="hidden sm:inline">@maximummotorsportscr_rieju</span>
+                <span className="sm:hidden">Maximum</span>
               </a>
-              <a href="https://www.facebook.com/Maximummotorsports23/" target="_blank" rel="noopener noreferrer" className="p-3 bg-zinc-950 border border-zinc-800 hover:border-[#D61F26] hover:text-[#D61F26] text-zinc-400 transition-all rounded-full">
-                <Facebook className="w-5 h-5" />
+              
+              <a href="https://www.instagram.com/rieju_costarica/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-zinc-950 border border-zinc-800 hover:border-[#D61F26] hover:text-[#D61F26] text-zinc-400 transition-all rounded-full text-xs font-mono">
+                <Instagram className="w-4 h-4" />
+                <span className="hidden sm:inline">@rieju_costarica</span>
+                <span className="sm:hidden">Rieju CR</span>
               </a>
+
+              <a href="https://www.facebook.com/Maximummotorsports23/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-zinc-950 border border-zinc-800 hover:border-[#D61F26] hover:text-[#D61F26] text-zinc-400 transition-all rounded-full text-xs font-mono">
+                <Facebook className="w-4 h-4" />
+                <span className="hidden sm:inline">Facebook</span>
+                <span className="sm:hidden">FB</span>
+              </a>
+
             </div>
           </div>
 
