@@ -16,7 +16,7 @@ export default defineType({
           name: 'en', 
           title: 'Inglés (English)', 
           type: 'string',
-          components: { input: MagicTranslator } // <-- MAGIC INJECTED HERE
+          components: { input: MagicTranslator }
         }
       ]
     }),
@@ -40,36 +40,8 @@ export default defineType({
     }),
     defineField({ 
       name: 'price', 
-      title: 'Precio (Number only, no $ sign)', 
+      title: 'Precio ₡ (Price ₡)', 
       type: 'number' 
-    }),
-    defineField({ 
-      name: 'material', 
-      title: 'Material', 
-      type: 'object',
-      fields: [
-        { name: 'es', title: 'Español (Spanish) - e.g., 100% Algodón', type: 'string' },
-        { 
-          name: 'en', 
-          title: 'Inglés (English) - e.g., 100% Cotton', 
-          type: 'string',
-          components: { input: MagicTranslator } // <-- MAGIC INJECTED HERE
-        }
-      ]
-    }),
-    defineField({ 
-      name: 'sizes', 
-      title: 'Tallas Disponibles (Sizes)', 
-      type: 'object',
-      fields: [
-        { name: 'es', title: 'Español (Spanish) - e.g., S, M, L o Talla Única', type: 'string' },
-        { 
-          name: 'en', 
-          title: 'Inglés (English) - e.g., S, M, L or One Size', 
-          type: 'string',
-          components: { input: MagicTranslator } // <-- MAGIC INJECTED HERE
-        }
-      ]
     }),
     defineField({ 
       name: 'mainImage', 
@@ -78,4 +50,23 @@ export default defineType({
       options: { hotspot: true } 
     }),
   ],
+  // --- ADDED: PREMIUM STUDIO PREVIEW UI ---
+  preview: {
+    select: {
+      title: 'title.es', // Pulls the Spanish title for the list view
+      subtitle: 'category', // Shows the category ID under the title
+      media: 'mainImage'
+    },
+    prepare(selection) {
+      const { title, subtitle, media } = selection;
+      // Capitalize the first letter of the category for the subtitle
+      const formattedCategory = subtitle ? subtitle.charAt(0).toUpperCase() + subtitle.slice(1) : 'Sin categoría';
+      
+      return {
+        title: title || 'Sin Título (Untitled)',
+        subtitle: `Categoría: ${formattedCategory}`,
+        media: media
+      };
+    }
+  }
 })

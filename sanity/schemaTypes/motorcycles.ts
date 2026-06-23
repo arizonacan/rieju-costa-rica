@@ -13,23 +13,8 @@ export default defineType({
       description: 'Ej. / e.g. Rieju MR Racing 300',
     }),
     defineField({
-      name: 'category',
-      title: 'Categoría (Category)',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'MR/Enduro', value: 'mr-enduro' },
-          { title: 'Xplora', value: 'xplora' },
-          { title: 'Aventura', value: 'aventura' },
-          { title: 'Eléctricas (Electric)', value: 'electricas' }
-        ],
-        layout: 'dropdown'
-      },
-      validation: (Rule) => Rule.required().error('¡La categoría es obligatoria! / Category is required!')
-    }),
-    defineField({
       name: 'price',
-      title: 'Precio (Price ₡)',
+      title: 'Precio ₡ (Price ₡)',
       type: 'number',
     }),
     defineField({

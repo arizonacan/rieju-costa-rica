@@ -128,7 +128,7 @@ export default function BikesPage() {
                   </div>
                   <div className="text-right shrink-0">
                     <span className="block text-[#D61F26] font-mono font-bold text-xl whitespace-nowrap">
-                      ₡ {Number(bike.price).toLocaleString('en-US')}</span>
+                      ₡ {Number(bike.price).toLocaleString(lang === 'es' ? 'es-CR' : 'en-US')}</span>
                     <span className="text-[10px] text-zinc-600 uppercase">MSRP</span>
                   </div>
                 </div>

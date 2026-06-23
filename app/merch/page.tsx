@@ -152,7 +152,7 @@ export default function MerchPage() {
                   </div>
                   <div className="text-right shrink-0">
                     <span className="block text-[#D61F26] font-mono font-bold text-xl whitespace-nowrap">
-                      ₡ {Number(item.price).toLocaleString('en-US')}</span>
+                      ₡ {Number(item.price).toLocaleString(lang === 'es' ? 'es-CR' : 'en-US')}</span>
                     <span className="text-[10px] text-zinc-600 uppercase">MSRP</span>
                   </div>
                 </div>
