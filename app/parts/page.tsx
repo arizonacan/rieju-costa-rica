@@ -62,7 +62,7 @@ export default function PartsPage() {
     es: {
       back: "Volver a Base",
       title: "Accesorios y Cuidado",
-      searchPlaceholder: "Buscar accesorios o número de parte...",
+      searchPlaceholder: "Buscar accesorios",
       filters: { all: "Todo", extras: "Extras", protection: "Protección", care: "Cuidado de la Moto" },
       close: "Cerrar",
       details: "Detalles del Producto",
@@ -71,11 +71,11 @@ export default function PartsPage() {
     en: {
       back: "Back to Base",
       title: "Accessories & Care",
-      searchPlaceholder: "Search accessories or part numbers...",
+      searchPlaceholder: "Search accessories",
       filters: { all: "All", extras: "Extras", protection: "Protection", care: "Motorcycle Care" },
       close: "Close",
       details: "Product Details",
-      labels: { category: "Category", compatibility: "Compatibility", partNumber: "Part Number", fitment: "Fitment", stock: "Stock" }
+      labels: { category: "Category", compatibility: "Compatibility", partNumber: "Part Number" }
     }
   };
 
@@ -173,8 +173,8 @@ export default function PartsPage() {
                   className="w-full h-full object-contain opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
                 />
               </div>
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="flex justify-between items-start mb-4">
+              <div className="p-4 flex flex-col flex-grow">
+                <div className="flex justify-between items-start mb-0">
                   <div className="pr-2">
                     <h2 className="text-lg font-bold uppercase italic font-sans leading-tight">{part?.name?.[lang] || "Untitled"}</h2>
                     <p className="text-zinc-500 text-[10px] font-mono mt-1">{part?.specs?.partNumber || "N/A"}</p>
@@ -184,19 +184,6 @@ export default function PartsPage() {
                       ₡ {Number(part.price).toLocaleString(lang === 'es' ? 'es-CR' : 'en-US')}</span>
                     <span className="text-[10px] text-zinc-600 uppercase">MSRP</span>
                   </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2 text-[10px] text-zinc-400 font-mono border-t border-zinc-800 pt-4 mt-auto">
-                   <div className="flex flex-col">
-                      <span className={styles.specLabel}>{t.labels.fitment}</span>
-                      <span className="text-white truncate" title={part?.specs?.fitment?.[lang] || "N/A"}>
-                        {part?.specs?.fitment?.[lang] || "N/A"}
-                      </span>
-                   </div>
-                   <div className="flex flex-col text-right">
-                      <span className={styles.specLabel}>{t.labels.stock}</span>
-                      <span className="text-white">{part?.specs?.stock?.[lang] || "N/A"}</span>
-                   </div>
                 </div>
               </div>
             </motion.div>
@@ -245,7 +232,7 @@ export default function PartsPage() {
                         {selectedPart?.name?.[lang] || "Untitled"}
                     </h2>
                     <div className="flex items-baseline gap-3">
-                        <span className="text-3xl font-mono font-bold text-white">₡ {Number(selectedPart?.price).toLocaleString('en-US')}</span>
+                        <span className="text-3xl font-mono font-bold text-white">₡ {Number(selectedPart?.price).toLocaleString(lang === 'es' ? 'es-CR' : 'en-US')}</span>
                     </div>
                 </div>
                 <button 
